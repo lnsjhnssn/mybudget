@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
+  root to: 'home#index'
   get 'inertia-example', to: 'inertia_example#index'
+
+  resources :users, only: [:create]
+  resources :sessions, only: [:create, :destroy]
+
+  get '/dashboard', to: 'dashboard#index'
+  
+  get '/authenticated', to: 'sessions#authenticated'
+
+
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
