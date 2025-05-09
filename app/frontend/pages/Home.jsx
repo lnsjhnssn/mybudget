@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { router } from "@inertiajs/react";
-import Login from "@/Components/Login";
-import Signup from "@/Components/Signup";
+import Login from "@/components/Login";
+import Signup from "@/components/Signup";
 
 export default function Home({ authenticated }) {
   useEffect(() => {
