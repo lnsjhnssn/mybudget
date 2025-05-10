@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   def require_login
     unless current_user
       respond_to do |format|
-        format.html { redirect_to '/', inertia: true }
+        format.html { redirect_to '/' }
         format.json { render json: { error: 'Unauthorized' }, status: :unauthorized }
       end
     end
