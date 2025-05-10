@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
 
       redirect_to '/dashboard'
     else
-      render inertia: 'Login', props: {
+      render inertia: 'Home', props: {
         errors: ['Invalid email or password']
       }, status: :unprocessable_entity
     end
