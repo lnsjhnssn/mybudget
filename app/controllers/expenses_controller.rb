@@ -2,9 +2,15 @@ class ExpensesController < ApplicationController
   before_action :require_login
 
   def index
-    expenses = current_user.expenses.includes(:tags).order(date: :desc)
+    expenses = current_user.expenses.includes(:tags)
+    
+    # Apply date filter if present
+    if params[:date_filter].present?
+      expenses = filter_by_date(expenses, params[:date_filter])
+    end
+
     render inertia: 'Expenses/ViewExpenses', props: {
-      expenses: expenses.as_json(include: :tags),
+      expenses: expenses.order(date: :desc).as_json(include: :tags),
       user: {
         id: current_user.id,
         email: current_user.email,
@@ -40,8 +46,40 @@ class ExpensesController < ApplicationController
   end
 
   def assign_tags(expense)
-    tag_names = Array(params[:tags])
+    # Split the tags string by comma and trim whitespace
+    tag_names = params[:tags].to_s.split(',').map(&:strip).reject(&:empty?)
+    # Create or find tags and associate them with the expense
     tags = tag_names.map { |name| Tag.find_or_create_by(name:) }
     expense.tags = tags
+  end
+
+  def filter_by_date(expenses, filter_type)
+    case filter_type
+    when 'today'
+      # Show only today's expenses
+      expenses.where(date: Date.today)
+    when 'this_month'
+      # Show expenses from the 1st of current month until today
+      expenses.where(date: Date.today.beginning_of_month..Date.today)
+    when 'last_30_days'
+      # Show expenses from exactly 30 days ago until today
+      expenses.where('date >= ?', 30.days.ago)
+    when 'last_month'
+      # Show expenses from the previous month
+      last_month = Date.today.last_month
+      expenses.where(date: last_month.beginning_of_month..last_month.end_of_month)
+    when 'last_3_months'
+      # Show expenses from 3 months ago until today
+      expenses.where('date >= ?', 3.months.ago)
+    when 'last_6_months'
+      # Show expenses from 6 months ago until today
+      expenses.where('date >= ?', 6.months.ago)
+    when 'this_year'
+      # Show expenses from January 1st until today
+      expenses.where('date >= ?', Date.today.beginning_of_year)
+    else
+      # Show all expenses
+      expenses
+    end
   end
 end

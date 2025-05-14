@@ -5,13 +5,15 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def current_user
-    token = cookies.signed[:expense_tracker_session_token]
-    return nil if token.blank?
+    @current_user ||= begin
+      token = cookies.signed[:expense_tracker_session_token]
+      return nil if token.blank?
 
-    session = Session.find_by(token: token)
-    return nil if session.nil?
+      session = Session.find_by(token: token)
+      return nil if session.nil?
 
-    session.user
+      session.user
+    end
   end
 
 
