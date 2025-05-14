@@ -3,9 +3,11 @@ import "../../styles/expenses.css";
 import Navbar from "../../components/Navbar";
 
 export default function AddExpense({ user }) {
+  const today = new Date().toISOString().split("T")[0]; // Gets today's date in YYYY-MM-DD format
+
   const { data, setData, post, processing, errors } = useForm({
     place: "",
-    date: "",
+    date: today,
     amount: "",
     tags: "",
   });
@@ -27,6 +29,16 @@ export default function AddExpense({ user }) {
         <form onSubmit={handleSubmit} className="stack">
           <div className="expense-form__field">
             <input
+              type="number"
+              placeholder="Amount"
+              value={data.amount}
+              onChange={(e) => setData("amount", e.target.value)}
+              className="expense-form__input"
+            />
+            {errors.amount && <div className="text-error">{errors.amount}</div>}
+          </div>
+          <div className="expense-form__field">
+            <input
               type="text"
               placeholder="Place"
               value={data.place}
@@ -35,7 +47,6 @@ export default function AddExpense({ user }) {
             />
             {errors.place && <div className="text-error">{errors.place}</div>}
           </div>
-
           <div className="expense-form__field">
             <input
               type="date"
@@ -45,18 +56,6 @@ export default function AddExpense({ user }) {
             />
             {errors.date && <div className="text-error">{errors.date}</div>}
           </div>
-
-          <div className="expense-form__field">
-            <input
-              type="number"
-              placeholder="Amount"
-              value={data.amount}
-              onChange={(e) => setData("amount", e.target.value)}
-              className="expense-form__input"
-            />
-            {errors.amount && <div className="text-error">{errors.amount}</div>}
-          </div>
-
           <div className="expense-form__field">
             <input
               type="text"
@@ -67,7 +66,6 @@ export default function AddExpense({ user }) {
             />
             {errors.tags && <div className="text-error">{errors.tags}</div>}
           </div>
-
           <button
             type="submit"
             disabled={processing}
