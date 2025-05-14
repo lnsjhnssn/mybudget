@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  month: 2025-05-10
+  amount: 9.99
+
+two:
+  user: two
+  month: 2025-05-10
+  amount: 9.99

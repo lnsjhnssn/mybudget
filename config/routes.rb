@@ -1,16 +1,22 @@
 Rails.application.routes.draw do
   root to: 'home#index'
-  get 'inertia-example', to: 'inertia_example#index'
+  
 
   resources :users, only: [:create]
   resources :sessions, only: [:create, :destroy]
+  resources :expenses, only: [:index, :create]
+  resources :budgets, only: [:show, :create, :update]
 
-  get '/dashboard', to: 'dashboard#index'
+  get '/dashboard', to: 'expenses#new'
+  get '/budget', to: 'budgets#show'
+  get '/expenses', to: 'expenses#index'
   
   get '/authenticated', to: 'sessions#authenticated'
 
+  # Inertia Example
+  get 'inertia-example', to: 'inertia_example#index'
 
-
+  get 'expenses/add', to: 'expenses#new'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

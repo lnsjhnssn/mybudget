@@ -3,8 +3,8 @@ has_secure_password
 
 has_many :sessions, dependent: :destroy
 has_many :expenses
-has_many :categories
-has_many :goals
+has_many :expenses
+has_one :budget
 
 validates :name, presence: true
 validates :email, presence: true, uniqueness: true

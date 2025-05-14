@@ -1,0 +1,22 @@
+import { Link } from "@inertiajs/react";
+import "../styles/expenses.css";
+
+export default function Navbar() {
+  return (
+    <nav className="navbar">
+      <div className="navbar__container">
+        <Link href="/expenses/add" className="navbar__brand">
+          MyBudget
+        </Link>
+        <div className="navbar__links">
+          <Link href="/expenses/add" className="navbar__link">
+            Add Expense
+          </Link>
+          <Link href="/expenses" className="navbar__link">
+            View Expenses
+          </Link>
+        </div>
+      </div>
+    </nav>
+  );
+}
