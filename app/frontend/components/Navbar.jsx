@@ -2,8 +2,6 @@ import { Link } from "@inertiajs/react";
 import Logout from "./Logout";
 // import "../styles/expenses.css";
 
-import "./navbar.css";
-
 export default function Navbar() {
   return (
     <nav className="navbar">
