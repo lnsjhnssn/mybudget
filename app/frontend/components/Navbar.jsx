@@ -15,6 +15,9 @@ export default function Navbar() {
           <Link href="/expenses" className="navbar__link">
             View Expenses
           </Link>
+          <Link href="/budget" className="navbar__link">
+            Budget
+          </Link>
         </div>
       </div>
     </nav>

@@ -1,26 +1,19 @@
-import { useState } from "react";
+import React from "react";
 import { router } from "@inertiajs/react";
 import "../../styles/expenses.css";
 import Navbar from "../../components/Navbar";
 import DateFilter from "../../components/DateFilter";
 
-export default function ViewExpenses({ expenses, user }) {
-  const [dateFilter, setDateFilter] = useState("all");
-
-  const handleDateFilterChange = (e) => {
-    setDateFilter(e.target.value);
-    router.get(
-      "/expenses",
-      { date_filter: e.target.value },
-      { preserveState: true }
-    );
-  };
-
+export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
   // Calculate total of all expenses
-  const total = expenses.reduce(
+  const totalExpenses = expenses.reduce(
     (sum, expense) => sum + parseFloat(expense.amount),
     0
   );
+
+  // Calculate remaining budget
+  const remainingBudget = budget ? budget.amount - totalExpenses : 0;
+  const budgetPercentage = budget ? (totalExpenses / budget.amount) * 100 : 0;
 
   // Group expenses by tags
   const expensesByTag = expenses.reduce((acc, expense) => {
@@ -37,7 +30,7 @@ export default function ViewExpenses({ expenses, user }) {
     return acc;
   }, {});
 
-  // Sort tags by total amount (highest to lowest)
+  // Sort tags by total amount (descending)
   const sortedTags = Object.entries(expensesByTag).sort(
     ([, a], [, b]) => b.total - a.total
   );
@@ -51,11 +44,45 @@ export default function ViewExpenses({ expenses, user }) {
           <p className="expense-list__welcome">Welcome, {user.email}</p>
         </div>
 
-        <DateFilter />
+        <DateFilter initialValue={dateFilter} />
 
         <div className="expense-list__summary">
-          <h3>Total Expenses</h3>
-          <p className="expense-list__total">€{total.toFixed(2)}</p>
+          <div className="expense-list__summary-section">
+            <h3>Total Expenses</h3>
+            <p className="expense-list__total">€{totalExpenses.toFixed(2)}</p>
+          </div>
+
+          {budget && dateFilter === "this_month" && (
+            <>
+              <div className="expense-list__summary-section">
+                <h3>Monthly Budget</h3>
+                <p className="expense-list__budget">
+                  €{budget.amount.toFixed(2)}
+                </p>
+              </div>
+              <div className="expense-list__summary-section">
+                <h3>Remaining Budget</h3>
+                <p
+                  className={`expense-list__remaining ${
+                    remainingBudget < 0
+                      ? "expense-list__remaining--negative"
+                      : ""
+                  }`}
+                >
+                  €{remainingBudget.toFixed(2)}
+                </p>
+              </div>
+              <div className="expense-list__progress">
+                <div
+                  className="expense-list__progress-bar"
+                  style={{ width: `${Math.min(budgetPercentage, 100)}%` }}
+                />
+                <span className="expense-list__progress-text">
+                  {budgetPercentage.toFixed(1)}% of budget used
+                </span>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="expense-list__tags">
@@ -76,11 +103,11 @@ export default function ViewExpenses({ expenses, user }) {
                           {expense.place}
                         </span>
                         <span className="expense-item__date">
-                          {expense.date}
+                          {new Date(expense.date).toLocaleDateString()}
                         </span>
                       </div>
                       <span className="expense-item__amount">
-                        €{expense.amount}
+                        €{parseFloat(expense.amount).toFixed(2)}
                       </span>
                     </div>
                   </li>

@@ -4,13 +4,20 @@ class ExpensesController < ApplicationController
   def index
     expenses = current_user.expenses.includes(:tags)
     
-    # Apply date filter if present
-    if params[:date_filter].present?
-      expenses = filter_by_date(expenses, params[:date_filter])
-    end
+    # Get current month's budget
+    current_month = Date.today.beginning_of_month
+    budget = current_user.budgets.find_by(month: current_month)
+    
+    # Apply date filter if present, default to this_month
+    date_filter = params[:date_filter] || 'this_month'
+    expenses = filter_by_date(expenses, date_filter)
 
     render inertia: 'Expenses/ViewExpenses', props: {
       expenses: expenses.order(date: :desc).as_json(include: :tags),
+      budget: budget&.as_json(only: [:id, :amount, :month]).tap do |json|
+        json['amount'] = json['amount'].to_f if json
+      end,
+      dateFilter: date_filter,
       user: {
         id: current_user.id,
         email: current_user.email,

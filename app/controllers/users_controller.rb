@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_user, only: [:update]
+
   def create
     @user = User.new(user_params)
 
@@ -19,7 +22,25 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+    if @user.update(user_params)
+      render json: { 
+        message: 'User updated successfully',
+        user: {
+          id: @user.id,
+          email: @user.email
+        }
+      }
+    else
+      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def set_user
+    @user = current_user
+  end
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)

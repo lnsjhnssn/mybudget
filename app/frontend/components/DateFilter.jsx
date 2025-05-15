@@ -1,17 +1,18 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { router } from "@inertiajs/react";
 import "../styles/expenses.css";
 
-export default function DateFilter() {
-  const [dateFilter, setDateFilter] = useState("all");
+export default function DateFilter({ initialValue = "this_month" }) {
+  const [dateFilter, setDateFilter] = useState(initialValue);
+
+  useEffect(() => {
+    setDateFilter(initialValue);
+  }, [initialValue]);
 
   const handleDateFilterChange = (e) => {
-    setDateFilter(e.target.value);
-    router.get(
-      "/expenses",
-      { date_filter: e.target.value },
-      { preserveState: true }
-    );
+    const newValue = e.target.value;
+    setDateFilter(newValue);
+    router.get("/expenses", { date_filter: newValue }, { preserveState: true });
   };
 
   return (
@@ -24,7 +25,6 @@ export default function DateFilter() {
           onChange={handleDateFilterChange}
           className="expense-list__select"
         >
-          <option value="all">All Time</option>
           <option value="today">Today</option>
           <option value="this_month">This Month</option>
           <option value="last_30_days">Last 30 Days (Rolling)</option>
