@@ -32,4 +32,5 @@ console.log(
 
 // Import styles
 import "../styles/expenses.css";
-import "../components/navbar.css";
+import "../styles/reset.css";
+import "../styles/base.css";

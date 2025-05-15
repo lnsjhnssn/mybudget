@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/react";
 import Logout from "./Logout";
-// import "../styles/expenses.css";
+import "../styles/expenses.css";
 
 export default function Navbar() {
   return (

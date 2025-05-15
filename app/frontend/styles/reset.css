@@ -92,3 +92,22 @@ textarea:not([rows]) {
 :target {
   scroll-margin-block: 5ex;
 }
+
+/*navbar*/
+
+.navbar__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.navbar__brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 1rem;
+}
