@@ -31,6 +31,3 @@ console.log(
 // import '~/index.css'
 
 // Import styles
-import "../styles/expenses.css";
-import "../styles/reset.css";
-import "../styles/base.css";
