@@ -52,7 +52,7 @@ export default function BudgetIndex({ budget, user }) {
           <form onSubmit={handleSubmit} className="budget-form__form">
             <div className="budget-form__field">
               <label htmlFor="amount" className="budget-form__label">
-                Monthly Budget Amount (€)
+                Monthly Budget Amount
               </label>
               <input
                 type="number"
@@ -80,7 +80,7 @@ export default function BudgetIndex({ budget, user }) {
             <div className="budget-info__current">
               <h3>Current Budget</h3>
               <p className="budget-info__amount">
-                €{formatAmount(budget.amount)}
+                {formatAmount(budget.amount)}
               </p>
               <p className="budget-info__period">
                 For{" "}

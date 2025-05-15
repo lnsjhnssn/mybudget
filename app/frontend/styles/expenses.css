@@ -35,49 +35,6 @@
   font-size: 0.875rem;
 }
 
-/* Navbar */
-.navbar {
-  background-color: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
-  margin-bottom: 2rem;
-}
-
-.navbar__container {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.navbar__brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1e40af;
-  text-decoration: none;
-}
-
-.navbar__links {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.navbar__link {
-  color: #4b5563;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  transition: all 0.2s;
-}
-
-.navbar__link:hover {
-  color: #1e40af;
-  background-color: #eff6ff;
-}
-
 /* Block */
 .expense-form {
   max-width: 32rem;
@@ -86,9 +43,7 @@
 }
 
 .expense-form__title {
-  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1rem;
 }
 
 .expense-form__field {
@@ -97,15 +52,17 @@
 
 .expense-form__input {
   width: 100%;
-  padding: 0.5rem;
+  margin-top: var(--space-xs);
+  padding: var(--space-s);
   border: 1px solid #e5e7eb;
   border-radius: 0.25rem;
 }
 
 .expense-form__button {
   width: 100%;
-  padding: 0.5rem;
-  background-color: #3b82f6;
+  margin-top: var(--space-xs);
+  padding: var(--space-m);
+  background-color: #e07a5f;
   color: white;
   border: none;
   border-radius: 0.25rem;
@@ -113,14 +70,7 @@
 }
 
 .expense-form__button:disabled {
-  background-color: #93c5fd;
   cursor: not-allowed;
-}
-
-.expense-list {
-  max-width: 64rem;
-  margin: 0 auto;
-  padding: 1rem;
 }
 
 .expense-list__title {
