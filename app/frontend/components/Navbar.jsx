@@ -1,5 +1,8 @@
 import { Link } from "@inertiajs/react";
-import "../styles/expenses.css";
+import Logout from "./Logout";
+// import "../styles/expenses.css";
+
+import "./navbar.css";
 
 export default function Navbar() {
   return (
@@ -18,6 +21,7 @@ export default function Navbar() {
           <Link href="/budget" className="navbar__link">
             Budget
           </Link>
+          <Logout />
         </div>
       </div>
     </nav>

@@ -1,6 +1,4 @@
 class ExpensesController < ApplicationController
-  before_action :require_login
-
   def index
     expenses = current_user.expenses.includes(:tags)
     
@@ -27,12 +25,18 @@ class ExpensesController < ApplicationController
   end
 
   def new
+    # Get unique places and tags from user's expenses
+    places = current_user.expenses.distinct.pluck(:place).compact
+    tags = current_user.expenses.joins(:tags).distinct.pluck('tags.name').compact
+
     render inertia: 'Expenses/AddExpense', props: {
       user: {
         id: current_user.id,
         email: current_user.email,
         name: current_user.name
-      }
+      },
+      existingPlaces: places,
+      existingTags: tags
     }
   end
 
@@ -52,41 +56,34 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(:place, :date, :amount)
   end
 
-  def assign_tags(expense)
-    # Split the tags string by comma and trim whitespace
-    tag_names = params[:tags].to_s.split(',').map(&:strip).reject(&:empty?)
-    # Create or find tags and associate them with the expense
-    tags = tag_names.map { |name| Tag.find_or_create_by(name:) }
-    expense.tags = tags
-  end
-
-  def filter_by_date(expenses, filter_type)
-    case filter_type
+  def filter_by_date(expenses, filter)
+    case filter
     when 'today'
-      # Show only today's expenses
       expenses.where(date: Date.today)
     when 'this_month'
-      # Show expenses from the 1st of current month until today
-      expenses.where(date: Date.today.beginning_of_month..Date.today)
+      expenses.where(date: Date.today.beginning_of_month..Date.today.end_of_month)
     when 'last_30_days'
-      # Show expenses from exactly 30 days ago until today
-      expenses.where('date >= ?', 30.days.ago)
+      expenses.where(date: 30.days.ago..Date.today)
     when 'last_month'
-      # Show expenses from the previous month
-      last_month = Date.today.last_month
-      expenses.where(date: last_month.beginning_of_month..last_month.end_of_month)
+      expenses.where(date: 1.month.ago.beginning_of_month..1.month.ago.end_of_month)
     when 'last_3_months'
-      # Show expenses from 3 months ago until today
-      expenses.where('date >= ?', 3.months.ago)
+      expenses.where(date: 3.months.ago..Date.today)
     when 'last_6_months'
-      # Show expenses from 6 months ago until today
-      expenses.where('date >= ?', 6.months.ago)
+      expenses.where(date: 6.months.ago..Date.today)
     when 'this_year'
-      # Show expenses from January 1st until today
-      expenses.where('date >= ?', Date.today.beginning_of_year)
+      expenses.where(date: Date.today.beginning_of_year..Date.today)
     else
-      # Show all expenses
       expenses
+    end
+  end
+
+  def assign_tags(expense)
+    if params[:tags].present?
+      tags = params[:tags].split(',').map(&:strip)
+      tags.each do |tag_name|
+        tag = Tag.find_or_create_by(name: tag_name)
+        expense.tags << tag unless expense.tags.include?(tag)
+      end
     end
   end
 end

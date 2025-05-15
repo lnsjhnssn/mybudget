@@ -1,6 +1,7 @@
 import React from "react";
 import { router } from "@inertiajs/react";
 import "../../styles/expenses.css";
+import "../../styles/base.css";
 import Navbar from "../../components/Navbar";
 import DateFilter from "../../components/DateFilter";
 
@@ -49,7 +50,7 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
         <div className="expense-list__summary">
           <div className="expense-list__summary-section">
             <h3>Total Expenses</h3>
-            <p className="expense-list__total">€{totalExpenses.toFixed(2)}</p>
+            <p className="expense-list__total">{totalExpenses.toFixed(2)}</p>
           </div>
 
           {budget && dateFilter === "this_month" && (
@@ -57,7 +58,7 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
               <div className="expense-list__summary-section">
                 <h3>Monthly Budget</h3>
                 <p className="expense-list__budget">
-                  €{budget.amount.toFixed(2)}
+                  {budget.amount.toFixed(2)}
                 </p>
               </div>
               <div className="expense-list__summary-section">
@@ -69,7 +70,7 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
                       : ""
                   }`}
                 >
-                  €{remainingBudget.toFixed(2)}
+                  {remainingBudget.toFixed(2)}
                 </p>
               </div>
               <div className="expense-list__progress">
@@ -91,7 +92,7 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
               <div className="expense-tag-group__header">
                 <h3 className="expense-tag-group__title">{tagName}</h3>
                 <span className="expense-tag-group__total">
-                  €{total.toFixed(2)}
+                  {total.toFixed(2)}
                 </span>
               </div>
               <ul className="expense-tag-group__list">
@@ -107,7 +108,7 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
                         </span>
                       </div>
                       <span className="expense-item__amount">
-                        €{parseFloat(expense.amount).toFixed(2)}
+                        {parseFloat(expense.amount).toFixed(2)}
                       </span>
                     </div>
                   </li>

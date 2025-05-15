@@ -19,32 +19,15 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    token = cookies.signed[:expense_tracker_session_token]
-    session = Session.find_by(token: token)
-
-    if session
-      session.destroy
+    if current_user
+      current_user.sessions.destroy_all
+      cookies.delete(:expense_tracker_session_token)
     end
-
-    cookies.delete(:expense_tracker_session_token)
-    redirect_to '/'
+    
+    redirect_to '/', notice: 'Logged out successfully'
   end
 
   def authenticated
-    token = cookies.signed[:expense_tracker_session_token]
-    session = Session.find_by(token: token)
-
-    if session
-      render json: {
-        authenticated: true,
-        user: {
-          id: session.user.id,
-          email: session.user.email,
-          name: session.user.name
-        }
-      }
-    else
-      render json: { authenticated: false }, status: :unauthorized
-    end
+    render json: { authenticated: current_user.present? }
   end
 end

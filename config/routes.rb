@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   
 
   resources :users, only: [:create]
-  resources :sessions, only: [:create, :destroy]
+  resources :sessions, only: [:create]
+  delete '/logout', to: 'sessions#destroy'
   resources :expenses, only: [:index, :create]
   resources :budgets, only: [:show, :create, :update]
 
