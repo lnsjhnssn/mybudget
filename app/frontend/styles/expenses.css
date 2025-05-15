@@ -1,4 +1,29 @@
 /* Composition */
+
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.font-bold {
+  font-weight: var(--font-weight-bold);
+}
+
+.font-1 {
+  font-size: var(--step-1);
+}
+
+.pb-xl {
+  padding-bottom: var(--space-xl);
+}
+
+.mt-xl {
+  margin-top: var(--space-xl);
+}
+
 .stack {
   display: flex;
   flex-direction: column;
@@ -36,21 +61,36 @@
 }
 
 /* Block */
-.expense-form {
+.container-md {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.container-sm {
   max-width: 32rem;
   margin: 0 auto;
-  padding: 1rem;
 }
 
-.expense-form__title {
-  font-weight: bold;
+.bg-secondary {
+  background-color: #f9fafb;
 }
 
-.expense-form__field {
+.p-m {
+  padding: var(--space-l);
+}
+
+.page-title {
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  margin-bottom: var(--space-l);
+  padding-top: var(--space-l);
+}
+
+.form-field {
   margin-bottom: 1rem;
 }
 
-.expense-form__input {
+.form-input {
   width: 100%;
   margin-top: var(--space-xs);
   padding: var(--space-s);
@@ -58,7 +98,7 @@
   border-radius: 0.25rem;
 }
 
-.expense-form__button {
+.btn-primary {
   width: 100%;
   margin-top: var(--space-xs);
   padding: var(--space-m);
@@ -69,7 +109,7 @@
   cursor: pointer;
 }
 
-.expense-form__button:disabled {
+.btn-primary:disabled {
   cursor: not-allowed;
 }
 
@@ -172,16 +212,9 @@
   text-align: center;
 }
 
-.expense-form__header,
-.expense-list__header {
-  margin-bottom: 2rem;
+.page-header {
   text-align: center;
-}
-
-.expense-form__welcome,
-.expense-list__welcome {
-  color: #6b7280;
-  margin-top: 0.5rem;
+  border-bottom: 1px solid #686868;
 }
 
 .expense-list__filters {
@@ -403,10 +436,14 @@
 }
 
 .budget-info {
-  background-color: white;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--step-1);
+  font-weight: var(--font-weight-bold);
+}
+
+.pb-l {
+  padding-bottom: var(--space-l);
 }
 
 .budget-info__current {
@@ -475,4 +512,50 @@
 .budget-history__amount {
   font-weight: 600;
   color: #1e40af;
+}
+
+/* Date Filter Styles */
+.date-filter {
+  margin-bottom: 2rem;
+}
+
+.date-filter__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+.date-filter__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.date-filter__button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  background-color: white;
+  color: #4b5563;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.date-filter__button:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.date-filter__button--active {
+  background-color: #e07a5f;
+  border-color: #e07a5f;
+  color: white;
+}
+
+.date-filter__button--active:hover {
+  background-color: #d86a4f;
+  border-color: #d86a4f;
 }

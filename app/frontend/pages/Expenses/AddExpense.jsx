@@ -25,88 +25,88 @@ export default function AddExpense({
   return (
     <>
       <Navbar />
-      <div className="expense-form">
-        <div className="expense-form__header">
-          <h2 className="expense-form__title">Add New Expense</h2>
+      <main className="container-sm bg-secondary">
+        <div className="page-header">
+          <h2 className="page-title">Add New Expense</h2>
         </div>
-        <form onSubmit={handleSubmit} className="stack">
-          <div className="expense-form__field">
-            <label htmlFor="amount" className="expense-form__label">
-              Amount
-            </label>
-            <input
-              id="amount"
-              type="number"
-              placeholder="10"
-              value={data.amount}
-              onChange={(e) => setData("amount", e.target.value)}
-              className="expense-form__input"
-            />
-            {errors.amount && <div className="text-error">{errors.amount}</div>}
-          </div>
-          <div className="expense-form__field">
-            <label htmlFor="date" className="expense-form__label">
-              Date
-            </label>
-            <input
-              id="date"
-              type="date"
-              value={data.date}
-              onChange={(e) => setData("date", e.target.value)}
-              className="expense-form__input"
-            />
-            {errors.date && <div className="text-error">{errors.date}</div>}
-          </div>
+        <div className="p-m">
+          <form onSubmit={handleSubmit} className="stack">
+            <div className="form-field">
+              <label htmlFor="amount" className="form-label">
+                Amount
+              </label>
+              <input
+                id="amount"
+                type="number"
+                placeholder="10"
+                value={data.amount}
+                onChange={(e) => setData("amount", e.target.value)}
+                className="form-input"
+              />
+              {errors.amount && (
+                <div className="text-error">{errors.amount}</div>
+              )}
+            </div>
+            <div className="form-field">
+              <label htmlFor="date" className="form-label">
+                Date
+              </label>
+              <input
+                id="date"
+                type="date"
+                value={data.date}
+                onChange={(e) => setData("date", e.target.value)}
+                className="form-input"
+              />
+              {errors.date && <div className="text-error">{errors.date}</div>}
+            </div>
 
-          <div className="expense-form__field">
-            <label htmlFor="place" className="expense-form__label">
-              Place
-            </label>
-            <input
-              id="place"
-              type="text"
-              list="places"
-              placeholder="Market, Restaurant, etc."
-              value={data.place}
-              onChange={(e) => setData("place", e.target.value)}
-              className="expense-form__input"
-            />
-            <datalist id="places">
-              {existingPlaces.map((place) => (
-                <option key={place} value={place} />
-              ))}
-            </datalist>
-            {errors.place && <div className="text-error">{errors.place}</div>}
-          </div>
-          <div className="expense-form__field">
-            <label htmlFor="tags" className="expense-form__label">
-              Category
-            </label>
-            <input
-              id="tags"
-              type="text"
-              list="categories"
-              placeholder="Category"
-              value={data.tags}
-              onChange={(e) => setData("tags", e.target.value)}
-              className="expense-form__input"
-            />
-            <datalist id="categories">
-              {existingTags.map((tag) => (
-                <option key={tag} value={tag} />
-              ))}
-            </datalist>
-            {errors.tags && <div className="text-error">{errors.tags}</div>}
-          </div>
-          <button
-            type="submit"
-            disabled={processing}
-            className="expense-form__button"
-          >
-            {processing ? "Saving..." : "Save"}
-          </button>
-        </form>
-      </div>
+            <div className="form-field">
+              <label htmlFor="place" className="form-label">
+                Place
+              </label>
+              <input
+                id="place"
+                type="text"
+                list="places"
+                placeholder="Market, Restaurant, etc."
+                value={data.place}
+                onChange={(e) => setData("place", e.target.value)}
+                className="form-input"
+              />
+              <datalist id="places">
+                {existingPlaces.map((place) => (
+                  <option key={place} value={place} />
+                ))}
+              </datalist>
+              {errors.place && <div className="text-error">{errors.place}</div>}
+            </div>
+            <div className="form-field">
+              <label htmlFor="tags" className="form-label">
+                Category
+              </label>
+              <input
+                id="tags"
+                type="text"
+                list="categories"
+                placeholder="Food, Transport, etc."
+                value={data.tags}
+                onChange={(e) => setData("tags", e.target.value)}
+                className="form-input"
+              />
+              <datalist id="categories">
+                {existingTags.map((tag) => (
+                  <option key={tag} value={tag} />
+                ))}
+              </datalist>
+              {errors.tags && <div className="text-error">{errors.tags}</div>}
+            </div>
+            <button type="submit" disabled={processing} className="btn-primary">
+              {processing ? "Saving..." : "Save"}
+            </button>
+          </form>
+        </div>
+      </main>
     </>
   );
 }

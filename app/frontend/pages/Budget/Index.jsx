@@ -42,17 +42,25 @@ export default function BudgetIndex({ budget, user }) {
   return (
     <>
       <Navbar />
-      <div className="budget-page">
-        <div className="budget-page__header">
-          <h2 className="budget-page__title">Monthly Budget</h2>
-          <p className="budget-page__welcome">Welcome, {user.email}</p>
+      <main className="container-sm bg-secondary">
+        <div className="page-header">
+          <h2 className="page-title">Budget</h2>
         </div>
-
-        <div className="budget-form">
-          <form onSubmit={handleSubmit} className="budget-form__form">
-            <div className="budget-form__field">
-              <label htmlFor="amount" className="budget-form__label">
-                Monthly Budget Amount
+        <div className="p-m">
+          {budget && (
+            <div className="pb-xl flex justify-between font-bold font-1">
+              <div>
+                <p>Monthly Budget</p>
+              </div>
+              <div>
+                <p>{formatAmount(budget.amount)}</p>
+              </div>
+            </div>
+          )}
+          <form onSubmit={handleSubmit} className="stack">
+            <div className="form-field">
+              <label htmlFor="amount" className="form-label">
+                Set Budget
               </label>
               <input
                 type="number"
@@ -60,7 +68,7 @@ export default function BudgetIndex({ budget, user }) {
                 name="amount"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="budget-form__input"
+                className="form-input"
                 step="0.01"
                 min="0"
                 required
@@ -69,30 +77,12 @@ export default function BudgetIndex({ budget, user }) {
                 <div className="text-error">{errors.amount}</div>
               )}
             </div>
-            <button type="submit" className="budget-form__button">
-              {budget ? "Update Budget" : "Set Budget"}
+            <button type="submit" className="btn-primary">
+              {budget ? "Save changes" : "Save Budget"}
             </button>
           </form>
         </div>
-
-        {budget && (
-          <div className="budget-info">
-            <div className="budget-info__current">
-              <h3>Current Budget</h3>
-              <p className="budget-info__amount">
-                {formatAmount(budget.amount)}
-              </p>
-              <p className="budget-info__period">
-                For{" "}
-                {new Date(budget.month).toLocaleDateString("en-US", {
-                  month: "long",
-                  year: "numeric",
-                })}
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
+      </main>
     </>
   );
 }
