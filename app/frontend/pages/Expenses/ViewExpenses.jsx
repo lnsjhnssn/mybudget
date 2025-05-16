@@ -1,16 +1,20 @@
 import React from "react";
-import { router } from "@inertiajs/react";
+
 import "../../styles/expenses.css";
-import "../../styles/base.css";
-import Navbar from "../../components/Navbar";
 import DateFilter from "../../components/DateFilter";
+import Layout from "../../components/Layout";
 
 export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
   // Calculate total of all expenses
-  const totalExpenses = expenses.reduce(
-    (sum, expense) => sum + parseFloat(expense.amount),
-    0
-  );
+  const totalExpenses =
+    expenses?.reduce((sum, expense) => {
+      const amount = parseFloat(expense?.amount);
+      if (isNaN(amount)) {
+        console.warn("Invalid amount found:", expense);
+        return sum;
+      }
+      return sum + amount;
+    }, 0) || 0;
 
   // Calculate remaining budget
   const remainingBudget = budget ? budget.amount - totalExpenses : 0;
@@ -37,8 +41,7 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
   );
 
   return (
-    <>
-      <Navbar />
+    <Layout>
       <main className="container-md bg-secondary">
         <div className="page-header">
           <h2 className="page-title">All Expenses</h2>
@@ -47,22 +50,22 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
         <div className="p-m">
           <DateFilter initialValue={dateFilter} />
 
-          <div>
+          <div className="expense-list-overview">
             <div className="flex justify-between">
-              <h3>Total Expenses</h3>
+              <p>Total Expenses</p>
               <p className="expense-list__total">{totalExpenses.toFixed(2)}</p>
             </div>
 
             {budget && dateFilter === "this_month" && (
               <>
                 <div className="flex justify-between">
-                  <h3>Monthly Budget</h3>
+                  <p>Monthly Budget</p>
                   <p className="expense-list__budget">
                     {budget.amount.toFixed(2)}
                   </p>
                 </div>
                 <div className="flex justify-between">
-                  <h3>Remaining</h3>
+                  <p>Remaining</p>
                   <p
                     className={`expense-list__remaining ${
                       remainingBudget < 0
@@ -77,11 +80,11 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
             )}
           </div>
 
-          <div className="expense-list__tags mt-xl">
+          <div className="list-expenses">
             {sortedTags.map(([tagName, { total, expenses }]) => (
               <div key={tagName} className="expense-tag-group">
                 <div className="expense-tag-group__header">
-                  <h3 className="expense-tag-group__title">{tagName}</h3>
+                  <p className="expense-tag-group__title">{tagName}</p>
                   <span className="expense-tag-group__total">
                     {total.toFixed(2)}
                   </span>
@@ -110,6 +113,6 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
           </div>
         </div>
       </main>
-    </>
+    </Layout>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { router } from "@inertiajs/react";
 import "../../styles/expenses.css";
-import Navbar from "../../components/Navbar";
+import Layout from "../../components/Layout";
 
 export default function BudgetIndex({ budget, user }) {
   const [amount, setAmount] = useState(budget?.amount || "");
@@ -40,8 +40,7 @@ export default function BudgetIndex({ budget, user }) {
   };
 
   return (
-    <>
-      <Navbar />
+    <Layout>
       <main className="container-sm bg-secondary">
         <div className="page-header">
           <h2 className="page-title">Budget</h2>
@@ -83,6 +82,6 @@ export default function BudgetIndex({ budget, user }) {
           </form>
         </div>
       </main>
-    </>
+    </Layout>
   );
 }

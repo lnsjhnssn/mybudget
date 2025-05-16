@@ -1,4 +1,5 @@
 import { router } from "@inertiajs/react";
+import "../styles/expenses.css";
 
 export default function Logout() {
   const handleLogout = () => {
@@ -11,7 +12,7 @@ export default function Logout() {
   };
 
   return (
-    <button onClick={handleLogout} className="logout-button">
+    <button onClick={handleLogout} className="btn-logout">
       Logout
     </button>
   );

@@ -17,29 +17,40 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
-      {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+    <div>
+      <form onSubmit={handleSubmit} className="stack login-form">
+        <h2>Login</h2>
 
-      <input
-        type="email"
-        value={data.user.email}
-        onChange={(e) => setData("user.email", e.target.value)}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="password"
-        value={data.user.password}
-        onChange={(e) => setData("user.password", e.target.value)}
-        placeholder="Password"
-        required
-      />
+        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
 
-      <button type="submit" disabled={processing}>
-        {processing ? "Logging in..." : "Log In"}
-      </button>
-    </form>
+        <label htmlFor="email" className="form-label">
+          Email
+        </label>
+        <input
+          type="email"
+          value={data.user.email}
+          onChange={(e) => setData("user.email", e.target.value)}
+          placeholder="Email"
+          required
+          className="form-input"
+        />
+        <label htmlFor="password" className="form-label">
+          Password
+        </label>
+        <input
+          type="password"
+          value={data.user.password}
+          onChange={(e) => setData("user.password", e.target.value)}
+          placeholder="Password"
+          required
+          className="form-input"
+        />
+
+        <button type="submit" disabled={processing} className="btn-primary">
+          {processing ? "Logging in..." : "Log In"}
+        </button>
+      </form>
+    </div>
   );
 }

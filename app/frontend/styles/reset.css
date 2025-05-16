@@ -28,12 +28,15 @@ blockquote,
 dl,
 dd {
   margin-block-end: 0;
+  margin-block-start: 0;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role="list"],
-ol[role="list"] {
+ul,
+ol {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 /* Set core body defaults */
@@ -91,23 +94,4 @@ textarea:not([rows]) {
 /* Anything that has been anchored to should have extra scroll margin */
 :target {
   scroll-margin-block: 5ex;
-}
-
-/*navbar*/
-
-.navbar__container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem 1rem;
-}
-
-.navbar__brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.navbar__links {
-  display: flex;
-  gap: 1rem;
 }
