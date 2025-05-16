@@ -1,6 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import "../../styles/expenses.css";
 import Navbar from "../../components/Navbar";
+import Layout from "../../components/Layout";
 
 export default function AddExpense({
   user,
@@ -23,8 +24,7 @@ export default function AddExpense({
   };
 
   return (
-    <>
-      <Navbar />
+    <Layout>
       <main className="container-sm bg-secondary">
         <div className="page-header">
           <h2 className="page-title">Add New Expense</h2>
@@ -107,6 +107,6 @@ export default function AddExpense({
           </form>
         </div>
       </main>
-    </>
+    </Layout>
   );
 }

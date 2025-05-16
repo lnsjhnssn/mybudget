@@ -1,5 +1,3 @@
-@import "./reset.css";
-
 /* @font-face {
   font-family: "HEX Franklin";
   src: url("../../assets/fonts/HEX_Franklin_v0.3_Variable.woff2")
@@ -11,6 +9,12 @@
 } */
 
 :root {
+  --color-red: #dc2626;
+  --color-green: #058333;
+  --color-blue: hsl(203, 100%, 47%);
+  --color-blue-light: hsl(203, 100%, 96%);
+  --color-blue-hover: hsl(203, 100%, 50%);
+  --color-gray: #f5f7fa;
   /* @link https://utopia.fyi/type/calculator?c=320,16,1.125,720,21,1.25,6,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
   --step--1: clamp(0.8889rem, 0.88rem + 0.0444vi, 0.9rem);
   --step-0: clamp(1rem, 0.9rem + 0.5vi, 1.125rem);
@@ -48,6 +52,8 @@
   --radius-s: var(--space-xs);
   --radius-m: var(--space-s);
   --radius-l: var(--space-m);
+  --radius-xl: var(--space-l);
+  --radius-2xl: var(--space-xl);
   --radius-full: 9999px;
 
   /* Font weights */
@@ -67,7 +73,8 @@ body {
   /* background-color: var(--gray-1); */
   /* display: flex; */
   min-height: 100%;
-  background-color: #eff6ff;
+  background-color: var(--color-gray);
+
   /* position: relative; */
   /* flex-direction: column;
     align-items: flex-start; */
@@ -139,6 +146,7 @@ a {
   text-decoration: none;
   /* text-decoration-color: var(--gray-8); */
   text-underline-offset: max(0.1em, 2.5px);
+  color: inherit;
 }
 
 @media (hover: hover) {
