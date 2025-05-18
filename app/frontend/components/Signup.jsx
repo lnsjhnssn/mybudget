@@ -3,7 +3,6 @@ import { useForm, router } from "@inertiajs/react";
 export default function Signup() {
   const { data, setData, post, processing, errors } = useForm({
     user: {
-      name: "",
       email: "",
       password: "",
       password_confirmation: "",
@@ -25,15 +24,7 @@ export default function Signup() {
         {errors.password_confirmation && (
           <p style={{ color: "red" }}>{errors.password_confirmation}</p>
         )}
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          value={data.user.name}
-          onChange={(e) => setData("user.name", e.target.value)}
-          placeholder="Name"
-          required
-          className="form-input"
-        />
+
         <label htmlFor="email">Email</label>
         <input
           type="email"
