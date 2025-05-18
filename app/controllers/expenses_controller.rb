@@ -48,9 +48,13 @@ class ExpensesController < ApplicationController
 
   def create
     # Normalize place and tags before create
-    if params[:expense].present?
-      params[:expense][:place] = normalize_text(params[:expense][:place]) if params[:expense][:place].present?
-      params[:expense][:tags] = params[:expense][:tags].map { |tag| normalize_text(tag) } if params[:expense][:tags].present?
+    if params[:place].present?
+      params[:place] = normalize_text(params[:place])
+      # Handle tags whether they come as a string or array
+      if params[:tags].present?
+        tags = params[:tags].is_a?(Array) ? params[:tags] : [params[:tags]]
+        params[:tags] = tags.map { |tag| normalize_text(tag) }
+      end
     end
 
     expense = current_user.expenses.new(expense_params)
@@ -67,9 +71,13 @@ class ExpensesController < ApplicationController
     Rails.logger.info "Update params: #{params.inspect}"
     
     # Normalize place and tags before update
-    if params[:expense].present?
-      params[:expense][:place] = normalize_text(params[:expense][:place]) if params[:expense][:place].present?
-      params[:expense][:tags] = params[:expense][:tags].map { |tag| normalize_text(tag) } if params[:expense][:tags].present?
+    if params[:place].present?
+      params[:place] = normalize_text(params[:place])
+      # Handle tags whether they come as a string or array
+      if params[:tags].present?
+        tags = params[:tags].is_a?(Array) ? params[:tags] : [params[:tags]]
+        params[:tags] = tags.map { |tag| normalize_text(tag) }
+      end
     end
     
     if expense.update(expense_params)
@@ -94,7 +102,7 @@ class ExpensesController < ApplicationController
   private
 
   def expense_params
-    params.require(:expense).permit(:place, :date, :amount, :tags)
+    params.permit(:place, :date, :amount)
   end
 
   def filter_by_date(expenses, filter)
@@ -119,13 +127,13 @@ class ExpensesController < ApplicationController
   end
 
   def assign_tags(expense)
-    Rails.logger.info "Assigning tags: #{params[:expense][:tags].inspect}"
-    if params[:expense][:tags].present?
+    Rails.logger.info "Assigning tags: #{params[:tags].inspect}"
+    if params[:tags].present?
       # Clear existing tags
       expense.tags.clear
       
       # Add new tags
-      tags = params[:expense][:tags]
+      tags = params[:tags].is_a?(Array) ? params[:tags] : [params[:tags]]
       tags.each do |tag_name|
         tag = Tag.find_or_create_by(name: tag_name)
         expense.tags << tag

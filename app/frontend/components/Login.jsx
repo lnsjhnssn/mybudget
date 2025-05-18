@@ -21,8 +21,13 @@ export default function Login() {
       <form onSubmit={handleSubmit} className="stack login-form">
         <h2>Login</h2>
 
-        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
-        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+        {errors.user?.email && (
+          <div className="text-error">{errors.user.email}</div>
+        )}
+        {errors.user?.password && (
+          <div className="text-error">{errors.user.password}</div>
+        )}
+        {errors.message && <div className="text-error">{errors.message}</div>}
 
         <label htmlFor="email" className="form-label">
           Email

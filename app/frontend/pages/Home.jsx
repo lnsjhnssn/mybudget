@@ -14,13 +14,13 @@ export default function Home({ authenticated }) {
   }, [authenticated]);
 
   return (
-    <div className="home-container">
+    <div className="home-container container-md">
       <div className="home-header stack">
-        <h1>Spark</h1>
+        <h1>Spark.</h1>
 
         <p className="home-header__description">
-          Set up a monthly spending goal. <br />
-          Track your expenses.
+          Set a monthly spending goal. <br />
+          Keep track of your purchases.
         </p>
       </div>
 
@@ -33,7 +33,7 @@ export default function Home({ authenticated }) {
                 Don't have an account?{" "}
                 <button
                   onClick={() => setShowLogin(false)}
-                  className="btn-link"
+                  className="btn-link btn-secondary"
                 >
                   Sign up
                 </button>
@@ -44,7 +44,10 @@ export default function Home({ authenticated }) {
               <Signup />
               <p className="auth-switch">
                 Already have an account?{" "}
-                <button onClick={() => setShowLogin(true)} className="btn-link">
+                <button
+                  onClick={() => setShowLogin(true)}
+                  className="btn-link btn-secondary"
+                >
                   Log in
                 </button>
               </p>
