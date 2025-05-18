@@ -20,7 +20,12 @@ export default function AddExpense({
   const handleSubmit = (e) => {
     e.preventDefault();
     const tagArray = data.tags.split(",").map((t) => t.trim());
-    post("/expenses", { data: { ...data, tags: tagArray } });
+    post("/expenses", {
+      place: data.place,
+      date: data.date,
+      amount: data.amount,
+      tags: tagArray,
+    });
   };
 
   return (

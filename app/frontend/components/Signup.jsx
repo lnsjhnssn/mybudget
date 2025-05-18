@@ -1,4 +1,4 @@
-import { useForm, router } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 
 export default function Signup() {
   const { data, setData, post, processing, errors } = useForm({
@@ -11,21 +11,28 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    post("/users");
+    post("/users", {
+      preserveScroll: true,
+      preserveState: false,
+    });
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit} className="stack login-form">
         <h2>Sign Up</h2>
-        <p>Create an account for free.</p>
-        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
-        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
-        {errors.password_confirmation && (
-          <p style={{ color: "red" }}>{errors.password_confirmation}</p>
-        )}
 
-        <label htmlFor="email">Email</label>
+        {errors.user?.email && (
+          <div className="text-error">{errors.user.email}</div>
+        )}
+        {errors.user?.password && (
+          <div className="text-error">{errors.user.password}</div>
+        )}
+        {errors.message && <div className="text-error">{errors.message}</div>}
+
+        <label htmlFor="email" className="form-label">
+          Email
+        </label>
         <input
           type="email"
           value={data.user.email}
@@ -34,7 +41,10 @@ export default function Signup() {
           required
           className="form-input"
         />
-        <label htmlFor="password">Password</label>
+
+        <label htmlFor="password" className="form-label">
+          Password
+        </label>
         <input
           type="password"
           value={data.user.password}
@@ -43,7 +53,10 @@ export default function Signup() {
           required
           className="form-input"
         />
-        <label htmlFor="password_confirmation">Confirm Password</label>
+
+        <label htmlFor="password_confirmation" className="form-label">
+          Confirm Password
+        </label>
         <input
           type="password"
           value={data.user.password_confirmation}
@@ -55,8 +68,8 @@ export default function Signup() {
           className="form-input"
         />
 
-        <button className="btn-primary" type="submit" disabled={processing}>
-          {processing ? "Signing up..." : "Sign Up"}
+        <button type="submit" disabled={processing} className="btn-primary">
+          {processing ? "Creating account..." : "Sign Up"}
         </button>
       </form>
     </div>

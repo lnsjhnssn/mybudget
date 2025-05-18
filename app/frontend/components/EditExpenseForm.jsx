@@ -10,7 +10,7 @@ export default function EditExpenseForm({
   const [editForm, setEditForm] = React.useState({
     place: expense.place,
     date: expense.date,
-    amount: expense.amount,
+    amount: parseFloat(expense.amount).toFixed(2),
     tags: expense.tags.map((tag) => tag.name).join(", "),
   });
 
@@ -33,12 +33,10 @@ export default function EditExpenseForm({
     router.put(
       `/expenses/${expense.id}`,
       {
-        expense: {
-          place: editForm.place,
-          date: editForm.date,
-          amount: editForm.amount,
-          tags: formattedTags,
-        },
+        place: editForm.place,
+        date: editForm.date,
+        amount: editForm.amount,
+        tags: formattedTags,
       },
       {
         onSuccess: () => {
@@ -72,7 +70,7 @@ export default function EditExpenseForm({
           id="amount"
           type="number"
           step="0.01"
-          value={parseFloat(editForm.amount).toFixed(2)}
+          value={editForm.amount}
           onChange={(e) =>
             setEditForm({
               ...editForm,
