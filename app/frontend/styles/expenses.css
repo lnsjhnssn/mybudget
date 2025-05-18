@@ -208,6 +208,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .expense-item__header:hover {
+    cursor: pointer;
+    font-weight: var(--font-weight-bold);
+  }
 }
 
 .expense-item__place {
@@ -601,4 +609,20 @@ nav {
 
 .expense-edit-actions .btn-primary {
   margin-top: 0;
+}
+
+.expense-edit-actions__buttons {
+  display: flex;
+  margin-top: var(--space-s);
+  gap: var(--space-s);
+}
+
+.btn-secondary:hover {
+  background-color: black;
+  color: white;
+}
+
+.btn-secondary:active {
+  background-color: black;
+  color: white;
 }
