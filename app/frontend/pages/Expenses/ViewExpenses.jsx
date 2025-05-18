@@ -4,14 +4,10 @@ import { router } from "@inertiajs/react";
 import "../../styles/expenses.css";
 import DateFilter from "../../components/DateFilter";
 import Layout from "../../components/Layout";
+import EditExpenseForm from "../../components/EditExpenseForm";
 
 export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
   const [editingExpense, setEditingExpense] = useState(null);
-  const [editForm, setEditForm] = useState({
-    place: "",
-    date: "",
-    amount: "",
-  });
 
   // Calculate total of all expenses
   const totalExpenses =
@@ -50,35 +46,6 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
 
   const handleEdit = (expense) => {
     setEditingExpense(expense.id);
-    setEditForm({
-      place: expense.place,
-      date: expense.date,
-      amount: expense.amount,
-    });
-  };
-
-  const handleUpdate = (e) => {
-    e.preventDefault();
-    router.put(
-      `/expenses/${editingExpense}`,
-      {
-        expense: editForm,
-      },
-      {
-        onSuccess: () => {
-          setEditingExpense(null);
-          setEditForm({ place: "", date: "", amount: "" });
-        },
-      }
-    );
-  };
-
-  const handleDelete = (expenseId) => {
-    if (window.confirm("Are you sure you want to delete this expense?")) {
-      router.delete(`/expenses/${expenseId}`, {
-        onSuccess: () => {},
-      });
-    }
   };
 
   return (
@@ -134,61 +101,16 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
                   {expenses.map((expense) => (
                     <li key={expense.id} className="expense-item">
                       {editingExpense === expense.id ? (
-                        <form
-                          onSubmit={handleUpdate}
-                          className="expense-edit-form"
-                        >
-                          <input
-                            type="text"
-                            value={editForm.place}
-                            onChange={(e) =>
-                              setEditForm({
-                                ...editForm,
-                                place: e.target.value,
-                              })
-                            }
-                            placeholder="Place"
-                            className="form-input"
-                            required
-                          />
-                          <input
-                            type="date"
-                            value={editForm.date}
-                            onChange={(e) =>
-                              setEditForm({ ...editForm, date: e.target.value })
-                            }
-                            className="form-input"
-                            required
-                          />
-                          <input
-                            type="number"
-                            step="0.01"
-                            value={editForm.amount}
-                            onChange={(e) =>
-                              setEditForm({
-                                ...editForm,
-                                amount: e.target.value,
-                              })
-                            }
-                            placeholder="Amount"
-                            className="form-input"
-                            required
-                          />
-                          <div className="expense-edit-actions">
-                            <button type="submit" className="btn-primary">
-                              Save
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setEditingExpense(null)}
-                              className="btn-link"
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </form>
+                        <EditExpenseForm
+                          expense={expense}
+                          onCancel={() => setEditingExpense(null)}
+                        />
                       ) : (
-                        <div className="expense-item__header">
+                        <div
+                          className="expense-item__header"
+                          onClick={() => handleEdit(expense)}
+                          style={{ cursor: "pointer" }}
+                        >
                           <div>
                             <span className="expense-item__place">
                               {expense.place}
@@ -201,18 +123,6 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
                             <span className="expense-item__amount">
                               {parseFloat(expense.amount).toFixed(2)}
                             </span>
-                            <button
-                              onClick={() => handleEdit(expense)}
-                              className="btn-link"
-                            >
-                              Edit
-                            </button>
-                            <button
-                              onClick={() => handleDelete(expense.id)}
-                              className="btn-link"
-                            >
-                              Delete
-                            </button>
                           </div>
                         </div>
                       )}
