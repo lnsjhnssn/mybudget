@@ -1,24 +1,17 @@
-# README
+# Spark - Expense Tracker App made in Rails + Inertia JS + React
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Features
 
-Things you may want to cover:
+- **Expense Tracking**: Log and categorize your daily expenses
+- **Budget Management**: Set and monitor monthly spending limits
+- **Categorization**: Automatically organize expenses with tags
+- **Date Filtering**: View expenses by different time periods
+- **User Authentication**: Secure login and registration system with rails
 
-* Ruby version
+## Tech Stack
 
-* System dependencies
+- **Backend**: Ruby on Rails
+- **Frontend**: React with Inertia.js
+- **Database**: PostgreSQL
+- **Styling**: Custom CSS 
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
