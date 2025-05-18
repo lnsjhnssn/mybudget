@@ -6,7 +6,14 @@ import DateFilter from "../../components/DateFilter";
 import Layout from "../../components/Layout";
 import EditExpenseForm from "../../components/EditExpenseForm";
 
-export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
+export default function ViewExpenses({
+  expenses,
+  user,
+  budget,
+  dateFilter,
+  existingPlaces = [],
+  existingTags = [],
+}) {
   const [editingExpense, setEditingExpense] = useState(null);
 
   // Calculate total of all expenses
@@ -104,6 +111,8 @@ export default function ViewExpenses({ expenses, user, budget, dateFilter }) {
                         <EditExpenseForm
                           expense={expense}
                           onCancel={() => setEditingExpense(null)}
+                          existingPlaces={existingPlaces}
+                          existingTags={existingTags}
                         />
                       ) : (
                         <div
