@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :users, only: [:create]
   resources :sessions, only: [:create]
   delete '/logout', to: 'sessions#destroy'
-  resources :expenses, only: [:index, :create]
+  resources :expenses, only: [:index, :create, :update, :destroy]
   resources :budgets, only: [:show, :create, :update]
 
   get '/dashboard', to: 'expenses#new'

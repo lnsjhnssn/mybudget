@@ -5,7 +5,6 @@ class User < ApplicationRecord
   has_many :expenses
   has_many :budgets
 
-  validates :name, presence: true
   validates :email, presence: true, uniqueness: true
   validates :password, length: { minimum: 6 }
   validates :password_confirmation, presence: true

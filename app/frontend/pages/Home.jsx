@@ -16,12 +16,11 @@ export default function Home({ authenticated }) {
   return (
     <div className="home-container">
       <div className="home-header stack">
-        <h1>
-          <img src={logoSpark} alt="Spark" className="navbar__logo" />
-        </h1>
+        <h1>Spark</h1>
 
         <p className="home-header__description">
-          Set up your monthly spending goal and start tracking your expenses.
+          Set up a monthly spending goal. <br />
+          Track your expenses.
         </p>
       </div>
 

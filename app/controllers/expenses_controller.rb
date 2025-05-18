@@ -50,6 +50,26 @@ class ExpensesController < ApplicationController
     end
   end
 
+  def update
+    expense = current_user.expenses.find(params[:id])
+    if expense.update(expense_params)
+      assign_tags(expense)
+      redirect_to expenses_path, notice: 'Expense updated successfully'
+    else
+      redirect_to expenses_path, errors: expense.errors.full_messages
+    end
+  end
+
+  def destroy
+    expense = current_user.expenses.find_by(id: params[:id])
+    if expense
+      expense.destroy
+      redirect_to expenses_path, notice: 'Expense deleted successfully'
+    else
+      redirect_to expenses_path, alert: 'Expense not found'
+    end
+  end
+
   private
 
   def expense_params
