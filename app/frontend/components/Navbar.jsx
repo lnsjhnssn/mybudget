@@ -10,9 +10,13 @@ export default function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    router.post("/logout");
+  const handleLogout = () => {
+    router.delete("/logout", {
+      preserveScroll: true,
+      onSuccess: () => {
+        router.visit("/");
+      },
+    });
   };
 
   return (
