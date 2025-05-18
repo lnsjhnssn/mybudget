@@ -1,4 +1,4 @@
-# Spark - Expense Tracker App made in Rails + Inertia JS + React
+# Expense Tracker App made in Rails + Inertia JS + React
 
 ## Features
 
