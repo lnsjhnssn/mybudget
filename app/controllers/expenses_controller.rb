@@ -10,6 +10,10 @@ class ExpensesController < ApplicationController
     date_filter = params[:date_filter] || 'this_month'
     expenses = filter_by_date(expenses, date_filter)
 
+    # Get unique places and tags from user's expenses
+    places = current_user.expenses.distinct.pluck(:place).compact
+    tags = current_user.expenses.joins(:tags).distinct.pluck('tags.name').compact
+
     render inertia: 'Expenses/ViewExpenses', props: {
       expenses: expenses.order(date: :desc).as_json(include: :tags),
       budget: budget&.as_json(only: [:id, :amount, :month]).tap do |json|
@@ -20,7 +24,9 @@ class ExpensesController < ApplicationController
         id: current_user.id,
         email: current_user.email,
         name: current_user.name
-      }
+      },
+      existingPlaces: places,
+      existingTags: tags
     }
   end
 
@@ -41,6 +47,12 @@ class ExpensesController < ApplicationController
   end
 
   def create
+    # Normalize place and tags before create
+    if params[:expense].present?
+      params[:expense][:place] = normalize_text(params[:expense][:place]) if params[:expense][:place].present?
+      params[:expense][:tags] = params[:expense][:tags].map { |tag| normalize_text(tag) } if params[:expense][:tags].present?
+    end
+
     expense = current_user.expenses.new(expense_params)
     if expense.save
       assign_tags(expense)
@@ -52,7 +64,16 @@ class ExpensesController < ApplicationController
 
   def update
     expense = current_user.expenses.find(params[:id])
+    Rails.logger.info "Update params: #{params.inspect}"
+    
+    # Normalize place and tags before update
+    if params[:expense].present?
+      params[:expense][:place] = normalize_text(params[:expense][:place]) if params[:expense][:place].present?
+      params[:expense][:tags] = params[:expense][:tags].map { |tag| normalize_text(tag) } if params[:expense][:tags].present?
+    end
+    
     if expense.update(expense_params)
+      Rails.logger.info "Tags params: #{params[:tags].inspect}"
       assign_tags(expense)
       redirect_to expenses_path, notice: 'Expense updated successfully'
     else
@@ -73,7 +94,7 @@ class ExpensesController < ApplicationController
   private
 
   def expense_params
-    params.require(:expense).permit(:place, :date, :amount)
+    params.require(:expense).permit(:place, :date, :amount, :tags)
   end
 
   def filter_by_date(expenses, filter)
@@ -98,12 +119,22 @@ class ExpensesController < ApplicationController
   end
 
   def assign_tags(expense)
-    if params[:tags].present?
-      tags = params[:tags].split(',').map(&:strip)
+    Rails.logger.info "Assigning tags: #{params[:expense][:tags].inspect}"
+    if params[:expense][:tags].present?
+      # Clear existing tags
+      expense.tags.clear
+      
+      # Add new tags
+      tags = params[:expense][:tags]
       tags.each do |tag_name|
         tag = Tag.find_or_create_by(name: tag_name)
-        expense.tags << tag unless expense.tags.include?(tag)
+        expense.tags << tag
       end
     end
+  end
+
+  def normalize_text(text)
+    return text if text.blank?
+    text.strip.split.map(&:capitalize).join(' ')
   end
 end
