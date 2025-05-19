@@ -1,7 +1,6 @@
 import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
-import "../styles/expenses.css";
-import logoSpark from "../assets/logo_spark.svg";
+import "../styles/theme.css";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

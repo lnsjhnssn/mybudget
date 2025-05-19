@@ -194,6 +194,16 @@
   }
 }
 
+.btn-secondary:hover {
+  background-color: black;
+  color: white;
+}
+
+.btn-secondary:active {
+  background-color: black;
+  color: white;
+}
+
 /* Page : All expenses  */
 
 .expense-list-overview {
@@ -262,7 +272,7 @@
 
 .expense-tag-group {
   background-color: white;
-  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
+
   overflow: hidden;
   border-radius: var(--radius-m);
   border: 1px solid #e5e7eb;
@@ -457,11 +467,6 @@
   .home-container {
     grid-template-columns: 1fr;
   }
-
-  .home-header {
-    /* padding: var(--space-m); */
-    /* margin-bottom: var(--space-xl); */
-  }
 }
 
 .home-header {
@@ -625,14 +630,4 @@
   display: flex;
   margin-top: var(--space-s);
   gap: var(--space-s);
-}
-
-.btn-secondary:hover {
-  background-color: black;
-  color: white;
-}
-
-.btn-secondary:active {
-  background-color: black;
-  color: white;
 }
