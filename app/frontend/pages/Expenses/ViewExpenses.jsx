@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { router } from "@inertiajs/react";
-
-import "../../styles/expenses.css";
+import "../../styles/theme.css";
 import DateFilter from "../../components/DateFilter";
 import Layout from "../../components/Layout";
 import EditExpenseForm from "../../components/EditExpenseForm";

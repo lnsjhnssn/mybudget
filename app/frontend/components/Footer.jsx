@@ -13,7 +13,6 @@ export default function Footer() {
       <div className="footer-container container-md">
         <div className="footer-content">
           <div>
-            <p>Spark.</p>
             <p className="footer-copyright">
               © {new Date().getFullYear()} Spark. All rights reserved.
             </p>
