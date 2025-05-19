@@ -14,6 +14,7 @@ export default function AddExpense({
     date: today,
     amount: "",
     tags: "",
+    image: null,
   });
 
   const handleSubmit = (e) => {
@@ -110,7 +111,14 @@ export default function AddExpense({
               <label htmlFor="image" className="form-label">
                 Image
               </label>
-              <input type="file" id="image" name="image" />
+              <input
+                type="file"
+                id="image"
+                name="image"
+                onChange={(e) => setData("image", e.target.files[0])}
+                className="form-input"
+              />
+              {errors.image && <div className="text-error">{errors.image}</div>}
             </div>
             <button type="submit" disabled={processing} className="btn-primary">
               {processing ? "Saving..." : "Save"}

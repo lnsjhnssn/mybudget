@@ -110,6 +110,9 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     dotenv (3.1.8)
+    dotenv-rails (3.1.8)
+      dotenv (= 3.1.8)
+      railties (>= 6.1)
     drb (2.2.1)
     dry-cli (1.2.0)
     ed25519 (1.4.0)
@@ -388,6 +391,7 @@ DEPENDENCIES
   capybara
   cloudinary
   debug
+  dotenv-rails
   image_processing (~> 1.2)
   inertia_rails (~> 3.8)
   jbuilder
