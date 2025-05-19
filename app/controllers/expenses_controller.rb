@@ -15,7 +15,11 @@ class ExpensesController < ApplicationController
     tags = current_user.expenses.joins(:tags).distinct.pluck('tags.name').compact
 
     render inertia: 'Expenses/ViewExpenses', props: {
-      expenses: expenses.order(date: :desc).as_json(include: :tags),
+      expenses: expenses.order(date: :desc).as_json(
+        only: [:id, :place, :date, :amount, :created_at, :updated_at],
+        include: { tags: { only: [:id, :name] } },
+        methods: :image_url
+      ),
       budget: budget&.as_json(only: [:id, :amount, :month]).tap do |json|
         json['amount'] = json['amount'].to_f if json
       end,
@@ -73,11 +77,18 @@ class ExpensesController < ApplicationController
     # Normalize place and tags before update
     if params[:place].present?
       params[:place] = normalize_text(params[:place])
-      # Handle tags whether they come as a string or array
-      if params[:tags].present?
-        tags = params[:tags].is_a?(Array) ? params[:tags] : [params[:tags]]
-        params[:tags] = tags.map { |tag| normalize_text(tag) }
-      end
+    end
+
+    if params[:tags].present?
+      processed_tags = if params[:tags].is_a?(Array)
+                         params[:tags]
+                       elsif params[:tags].is_a?(ActionController::Parameters) || params[:tags].is_a?(Hash)
+                         params[:tags].values
+                       else
+                         [params[:tags].to_s]
+                       end
+      # Normalize each tag name and remove any blank tags that might result
+      params[:tags] = processed_tags.map { |tag_name| normalize_text(tag_name.to_s) }.reject(&:blank?)
     end
     
     if expense.update(expense_params)
@@ -102,7 +113,7 @@ class ExpensesController < ApplicationController
   private
 
   def expense_params
-    params.permit(:place, :date, :amount)
+    params.permit(:place, :date, :amount, :image)
   end
 
   def filter_by_date(expenses, filter)

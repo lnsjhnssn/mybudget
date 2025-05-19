@@ -12,6 +12,10 @@ export default function ViewExpenses({
   existingPlaces = [],
   existingTags = [],
 }) {
+  console.log(
+    "Expenses data received by ViewExpenses:",
+    JSON.stringify(expenses, null, 2)
+  );
   const [editingExpense, setEditingExpense] = useState(null);
 
   // Calculate total of all expenses

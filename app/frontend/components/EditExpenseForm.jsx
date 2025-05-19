@@ -12,42 +12,38 @@ export default function EditExpenseForm({
     date: expense.date,
     amount: parseFloat(expense.amount).toFixed(2),
     tags: expense.tags.map((tag) => tag.name).join(", "),
+    imageFile: null, // To store the new file object, if any
   });
 
   const handleUpdate = (e) => {
     e.preventDefault();
 
-    // Format tags: split by comma, trim whitespace, and filter out empty strings
     const formattedTags = editForm.tags
       .split(",")
       .map((tag) => tag.trim())
       .filter((tag) => tag.length > 0);
 
-    console.log("Sending update with data:", {
+    const dataToSend = {
+      _method: "PUT", // Spoof PUT method for robust file uploads with Inertia
       place: editForm.place,
       date: editForm.date,
       amount: editForm.amount,
       tags: formattedTags,
-    });
+    };
 
-    router.put(
-      `/expenses/${expense.id}`,
-      {
-        place: editForm.place,
-        date: editForm.date,
-        amount: editForm.amount,
-        tags: formattedTags,
+    if (editForm.imageFile) {
+      dataToSend.image = editForm.imageFile;
+    } else {
+    }
+
+    router.post(`/expenses/${expense.id}`, dataToSend, {
+      onSuccess: () => {
+        onCancel(); // Close form on success
       },
-      {
-        onSuccess: () => {
-          console.log("Update successful");
-          onCancel();
-        },
-        onError: (errors) => {
-          console.error("Update failed:", errors);
-        },
-      }
-    );
+      onError: (errors) => {
+        console.error("Update failed:", errors);
+      },
+    });
   };
 
   const handleDelete = (expenseId) => {
@@ -62,6 +58,14 @@ export default function EditExpenseForm({
 
   return (
     <form onSubmit={handleUpdate} className="expense-edit-form">
+      <button
+        className="btn-close-edit"
+        type="button"
+        onClick={onCancel}
+        aria-label="Close edit form"
+      >
+        &times;
+      </button>
       <div className="form-field">
         <label htmlFor="amount" className="form-label">
           Amount
@@ -139,6 +143,42 @@ export default function EditExpenseForm({
             <option key={tag} value={tag} />
           ))}
         </datalist>
+      </div>
+      {/* Display current image if no new image is selected yet */}
+      {expense.image_url && !editForm.imageFile && (
+        <div className="form-field">
+          <label className="form-label">Receipt</label>
+          <img
+            className="expense-edit-form__image"
+            src={expense.image_url}
+            alt="Current expense"
+          />
+        </div>
+      )}
+      {/* Display new image preview if a new image has been selected */}
+      {editForm.imageFile && (
+        <div className="form-field">
+          <label className="form-label">New Receipt Preview</label>
+          <img
+            className="expense-edit-form__image"
+            src={URL.createObjectURL(editForm.imageFile)}
+            alt="New receipt preview"
+          />
+        </div>
+      )}
+
+      <div className="form-field">
+        <label htmlFor="imageFile" className="form-label">
+          {expense.image_url ? "Change Receipt" : "Add Receipt"}
+        </label>
+        <input
+          type="file"
+          id="imageFile"
+          onChange={(e) =>
+            setEditForm({ ...editForm, imageFile: e.target.files[0] })
+          }
+          className="form-input"
+        />
       </div>
 
       <div className="expense-edit-actions">

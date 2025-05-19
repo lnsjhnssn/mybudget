@@ -14,6 +14,7 @@ export default function AddExpense({
     date: today,
     amount: "",
     tags: "",
+    image: null,
   });
 
   const handleSubmit = (e) => {
@@ -24,6 +25,7 @@ export default function AddExpense({
       date: data.date,
       amount: data.amount,
       tags: tagArray,
+      image: data.image,
     });
   };
 
@@ -104,6 +106,19 @@ export default function AddExpense({
                 ))}
               </datalist>
               {errors.tags && <div className="text-error">{errors.tags}</div>}
+            </div>
+            <div className="form-field">
+              <label htmlFor="image" className="form-label">
+                Add Receipt
+              </label>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                onChange={(e) => setData("image", e.target.files[0])}
+                className="form-input"
+              />
+              {errors.image && <div className="text-error">{errors.image}</div>}
             </div>
             <button type="submit" disabled={processing} className="btn-primary">
               {processing ? "Saving..." : "Save"}

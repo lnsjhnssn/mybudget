@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   resources :users, only: [:create]
   resources :sessions, only: [:create]
   
-  resources :expenses, only: [:index, :create, :update, :destroy]
+  resources :expenses, only: [:index, :create, :update, :destroy] do
+    post :update, on: :member
+  end
   resources :budgets, only: [:show, :create, :update]
 
   get '/dashboard', to: 'expenses#new'
