@@ -1,6 +1,5 @@
 import { useForm } from "@inertiajs/react";
-import "../../styles/expenses.css";
-import Navbar from "../../components/Navbar";
+import "../../styles/theme.css";
 import Layout from "../../components/Layout";
 
 export default function AddExpense({
