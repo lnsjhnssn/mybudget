@@ -24,6 +24,7 @@ export default function AddExpense({
       date: data.date,
       amount: data.amount,
       tags: tagArray,
+      image: data.image,
     });
   };
 
@@ -104,6 +105,12 @@ export default function AddExpense({
                 ))}
               </datalist>
               {errors.tags && <div className="text-error">{errors.tags}</div>}
+            </div>
+            <div className="form-field">
+              <label htmlFor="image" className="form-label">
+                Image
+              </label>
+              <input type="file" id="image" name="image" />
             </div>
             <button type="submit" disabled={processing} className="btn-primary">
               {processing ? "Saving..." : "Save"}

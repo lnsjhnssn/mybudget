@@ -15,7 +15,11 @@ class ExpensesController < ApplicationController
     tags = current_user.expenses.joins(:tags).distinct.pluck('tags.name').compact
 
     render inertia: 'Expenses/ViewExpenses', props: {
-      expenses: expenses.order(date: :desc).as_json(include: :tags),
+      expenses: expenses.order(date: :desc).as_json(
+        only: [:id, :place, :date, :amount, :created_at, :updated_at],
+        include: { tags: { only: [:id, :name] } },
+        methods: :image_url
+      ),
       budget: budget&.as_json(only: [:id, :amount, :month]).tap do |json|
         json['amount'] = json['amount'].to_f if json
       end,
@@ -102,7 +106,7 @@ class ExpensesController < ApplicationController
   private
 
   def expense_params
-    params.permit(:place, :date, :amount)
+    params.permit(:place, :date, :amount, :image)
   end
 
   def filter_by_date(expenses, filter)
