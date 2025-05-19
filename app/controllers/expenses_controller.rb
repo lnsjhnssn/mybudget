@@ -77,11 +77,18 @@ class ExpensesController < ApplicationController
     # Normalize place and tags before update
     if params[:place].present?
       params[:place] = normalize_text(params[:place])
-      # Handle tags whether they come as a string or array
-      if params[:tags].present?
-        tags = params[:tags].is_a?(Array) ? params[:tags] : [params[:tags]]
-        params[:tags] = tags.map { |tag| normalize_text(tag) }
-      end
+    end
+
+    if params[:tags].present?
+      processed_tags = if params[:tags].is_a?(Array)
+                         params[:tags]
+                       elsif params[:tags].is_a?(ActionController::Parameters) || params[:tags].is_a?(Hash)
+                         params[:tags].values
+                       else
+                         [params[:tags].to_s]
+                       end
+      # Normalize each tag name and remove any blank tags that might result
+      params[:tags] = processed_tags.map { |tag_name| normalize_text(tag_name.to_s) }.reject(&:blank?)
     end
     
     if expense.update(expense_params)

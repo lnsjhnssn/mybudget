@@ -12,42 +12,44 @@ export default function EditExpenseForm({
     date: expense.date,
     amount: parseFloat(expense.amount).toFixed(2),
     tags: expense.tags.map((tag) => tag.name).join(", "),
+    imageFile: null, // To store the new file object, if any
   });
 
   const handleUpdate = (e) => {
     e.preventDefault();
 
-    // Format tags: split by comma, trim whitespace, and filter out empty strings
     const formattedTags = editForm.tags
       .split(",")
       .map((tag) => tag.trim())
       .filter((tag) => tag.length > 0);
 
-    console.log("Sending update with data:", {
+    const dataToSend = {
+      _method: "PUT", // Spoof PUT method for robust file uploads with Inertia
       place: editForm.place,
       date: editForm.date,
       amount: editForm.amount,
       tags: formattedTags,
-    });
+    };
 
-    router.put(
-      `/expenses/${expense.id}`,
-      {
-        place: editForm.place,
-        date: editForm.date,
-        amount: editForm.amount,
-        tags: formattedTags,
+    if (editForm.imageFile) {
+      dataToSend.image = editForm.imageFile;
+    } else {
+      // If you want to ensure that NOT providing an imageFile when one previously existed
+      // does NOT remove it, you generally don't need to send anything for `image`.
+      // If you wanted to explicitly REMOVE an image, you'd send a specific param like `image: null` or `remove_image: true`
+      // and handle that in the backend. For now, if no new imageFile, backend won't change current image.
+    }
+
+    router.post(`/expenses/${expense.id}`, dataToSend, {
+      onSuccess: () => {
+        onCancel(); // Close form on success
       },
-      {
-        onSuccess: () => {
-          console.log("Update successful");
-          onCancel();
-        },
-        onError: (errors) => {
-          console.error("Update failed:", errors);
-        },
-      }
-    );
+      onError: (errors) => {
+        console.error("Update failed:", errors);
+        // Here you could set form errors, e.g., setErrors(errors)
+      },
+      // preserveState: true, // Consider this if you want to keep form state on error
+    });
   };
 
   const handleDelete = (expenseId) => {
@@ -139,6 +141,52 @@ export default function EditExpenseForm({
             <option key={tag} value={tag} />
           ))}
         </datalist>
+      </div>
+      {/* Display current image if no new image is selected yet */}
+      {expense.image_url && !editForm.imageFile && (
+        <div className="form-field">
+          <label className="form-label">Image:</label>
+          <img
+            src={expense.image_url}
+            alt="Current expense"
+            style={{
+              maxWidth: "100px",
+              maxHeight: "100px",
+              marginTop: "5px",
+              display: "block",
+            }}
+          />
+        </div>
+      )}
+      {/* Display new image preview if a new image has been selected */}
+      {editForm.imageFile && (
+        <div className="form-field">
+          <label className="form-label">New Image Preview:</label>
+          <img
+            src={URL.createObjectURL(editForm.imageFile)}
+            alt="New expense preview"
+            style={{
+              maxWidth: "100px",
+              maxHeight: "100px",
+              marginTop: "5px",
+              display: "block",
+            }}
+          />
+        </div>
+      )}
+
+      <div className="form-field">
+        <label htmlFor="imageFile" className="form-label">
+          {expense.image_url ? "Change Image" : "Add Image"} (optional)
+        </label>
+        <input
+          type="file"
+          id="imageFile"
+          onChange={(e) =>
+            setEditForm({ ...editForm, imageFile: e.target.files[0] })
+          }
+          className="form-input"
+        />
       </div>
 
       <div className="expense-edit-actions">
