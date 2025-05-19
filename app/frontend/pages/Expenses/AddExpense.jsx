@@ -109,7 +109,7 @@ export default function AddExpense({
             </div>
             <div className="form-field">
               <label htmlFor="image" className="form-label">
-                Image
+                Add Receipt
               </label>
               <input
                 type="file"

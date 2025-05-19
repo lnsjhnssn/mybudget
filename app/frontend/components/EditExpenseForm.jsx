@@ -34,10 +34,6 @@ export default function EditExpenseForm({
     if (editForm.imageFile) {
       dataToSend.image = editForm.imageFile;
     } else {
-      // If you want to ensure that NOT providing an imageFile when one previously existed
-      // does NOT remove it, you generally don't need to send anything for `image`.
-      // If you wanted to explicitly REMOVE an image, you'd send a specific param like `image: null` or `remove_image: true`
-      // and handle that in the backend. For now, if no new imageFile, backend won't change current image.
     }
 
     router.post(`/expenses/${expense.id}`, dataToSend, {
@@ -46,9 +42,7 @@ export default function EditExpenseForm({
       },
       onError: (errors) => {
         console.error("Update failed:", errors);
-        // Here you could set form errors, e.g., setErrors(errors)
       },
-      // preserveState: true, // Consider this if you want to keep form state on error
     });
   };
 
@@ -64,6 +58,14 @@ export default function EditExpenseForm({
 
   return (
     <form onSubmit={handleUpdate} className="expense-edit-form">
+      <button
+        className="btn-close-edit"
+        type="button"
+        onClick={onCancel}
+        aria-label="Close edit form"
+      >
+        &times;
+      </button>
       <div className="form-field">
         <label htmlFor="amount" className="form-label">
           Amount
@@ -145,39 +147,29 @@ export default function EditExpenseForm({
       {/* Display current image if no new image is selected yet */}
       {expense.image_url && !editForm.imageFile && (
         <div className="form-field">
-          <label className="form-label">Image:</label>
+          <label className="form-label">Receipt</label>
           <img
+            className="expense-edit-form__image"
             src={expense.image_url}
             alt="Current expense"
-            style={{
-              maxWidth: "100px",
-              maxHeight: "100px",
-              marginTop: "5px",
-              display: "block",
-            }}
           />
         </div>
       )}
       {/* Display new image preview if a new image has been selected */}
       {editForm.imageFile && (
         <div className="form-field">
-          <label className="form-label">New Image Preview:</label>
+          <label className="form-label">New Receipt Preview</label>
           <img
+            className="expense-edit-form__image"
             src={URL.createObjectURL(editForm.imageFile)}
-            alt="New expense preview"
-            style={{
-              maxWidth: "100px",
-              maxHeight: "100px",
-              marginTop: "5px",
-              display: "block",
-            }}
+            alt="New receipt preview"
           />
         </div>
       )}
 
       <div className="form-field">
         <label htmlFor="imageFile" className="form-label">
-          {expense.image_url ? "Change Image" : "Add Image"} (optional)
+          {expense.image_url ? "Change Receipt" : "Add Receipt"}
         </label>
         <input
           type="file"

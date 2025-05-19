@@ -608,12 +608,57 @@
 }
 
 .expense-edit-form {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-s);
-  padding: var(--space-s);
-  background-color: white;
-  border-radius: var(--radius-m);
+  padding: var(--space-xl);
+  padding-top: var(--space-3xl);
+  background-color: var(--color-gray);
+  /* border-radius: var(--radius-m); */
+}
+
+.expense-edit-form__image {
+  max-width: 50%;
+  margin-top: 5px;
+  display: block;
+}
+
+@media (max-width: 800px) {
+  .expense-edit-form__image {
+    max-width: 100%;
+  }
+}
+
+#imageFile {
+  padding: var(--space-m);
+}
+
+input::file-selector-button {
+  padding: var(--space-s) var(--space-m);
+  color: black;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-xl);
+  font-size: var(--step--1);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input::file-selector-button:hover {
+  background-color: rgb(229, 231, 235);
+}
+
+.btn-close-edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: var(--step-2);
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
 }
 
 .expense-edit-actions {

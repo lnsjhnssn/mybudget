@@ -129,17 +129,6 @@ export default function ViewExpenses({
                             <span className="expense-item__date">
                               {new Date(expense.date).toLocaleDateString()}
                             </span>
-                            {expense.image_url && (
-                              <img
-                                src={expense.image_url}
-                                alt={`Expense image for ${expense.place}`}
-                                style={{
-                                  maxWidth: "50px",
-                                  maxHeight: "50px",
-                                  marginTop: "5px",
-                                }}
-                              />
-                            )}
                           </div>
                           <div className="expense-item__actions">
                             <span className="expense-item__amount">
