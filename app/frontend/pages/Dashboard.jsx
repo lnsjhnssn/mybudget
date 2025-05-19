@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react";
-import "../styles/expenses.css";
+import "../styles/theme.css";
 import Navbar from "../components/Navbar";
 
 export default function Dashboard() {

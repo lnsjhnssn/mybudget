@@ -14,8 +14,18 @@ class ExpensesController < ApplicationController
     places = current_user.expenses.distinct.pluck(:place).compact
     tags = current_user.expenses.joins(:tags).distinct.pluck('tags.name').compact
 
+    # Prepare expenses data
+    expenses_data = expenses.order(date: :desc).map do |expense|
+      expense_data = expense.as_json(only: [:id, :place, :date, :amount], include: { tags: { only: [:id, :name] } })
+      if expense.image.attached?
+        blob = expense.image.blob
+        expense_data['image_url'] = "/rails/active_storage/blobs/#{blob.signed_id}/#{blob.filename}"
+      end
+      expense_data
+    end
+
     render inertia: 'Expenses/ViewExpenses', props: {
-      expenses: expenses.order(date: :desc).as_json(include: :tags),
+      expenses: expenses_data,
       budget: budget&.as_json(only: [:id, :amount, :month]).tap do |json|
         json['amount'] = json['amount'].to_f if json
       end,
@@ -47,17 +57,10 @@ class ExpensesController < ApplicationController
   end
 
   def create
-    # Normalize place and tags before create
-    if params[:place].present?
-      params[:place] = normalize_text(params[:place])
-      # Handle tags whether they come as a string or array
-      if params[:tags].present?
-        tags = params[:tags].is_a?(Array) ? params[:tags] : [params[:tags]]
-        params[:tags] = tags.map { |tag| normalize_text(tag) }
-      end
-    end
-
+    Rails.logger.info "Received params: #{params.inspect}"
+    
     expense = current_user.expenses.new(expense_params)
+    
     if expense.save
       assign_tags(expense)
       redirect_to expenses_path, notice: 'Expense added'
@@ -70,18 +73,7 @@ class ExpensesController < ApplicationController
     expense = current_user.expenses.find(params[:id])
     Rails.logger.info "Update params: #{params.inspect}"
     
-    # Normalize place and tags before update
-    if params[:place].present?
-      params[:place] = normalize_text(params[:place])
-      # Handle tags whether they come as a string or array
-      if params[:tags].present?
-        tags = params[:tags].is_a?(Array) ? params[:tags] : [params[:tags]]
-        params[:tags] = tags.map { |tag| normalize_text(tag) }
-      end
-    end
-    
     if expense.update(expense_params)
-      Rails.logger.info "Tags params: #{params[:tags].inspect}"
       assign_tags(expense)
       redirect_to expenses_path, notice: 'Expense updated successfully'
     else
@@ -102,7 +94,7 @@ class ExpensesController < ApplicationController
   private
 
   def expense_params
-    params.permit(:place, :date, :amount)
+    params.permit(:place, :date, :amount, :image, tags: [])
   end
 
   def filter_by_date(expenses, filter)
@@ -132,10 +124,16 @@ class ExpensesController < ApplicationController
       # Clear existing tags
       expense.tags.clear
       
+      # Parse tags from JSON string if needed
+      tags = if params[:tags].is_a?(String)
+        JSON.parse(params[:tags])
+      else
+        params[:tags]
+      end
+      
       # Add new tags
-      tags = params[:tags].is_a?(Array) ? params[:tags] : [params[:tags]]
       tags.each do |tag_name|
-        tag = Tag.find_or_create_by(name: tag_name)
+        tag = Tag.find_or_create_by(name: tag_name.downcase)
         expense.tags << tag
       end
     end

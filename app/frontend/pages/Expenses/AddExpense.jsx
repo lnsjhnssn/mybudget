@@ -1,5 +1,7 @@
-import { useForm } from "@inertiajs/react";
-import "../../styles/expenses.css";
+import { useState } from "react";
+import { router } from "@inertiajs/react";
+import "../../styles/theme.css";
+
 import Navbar from "../../components/Navbar";
 import Layout from "../../components/Layout";
 
@@ -8,24 +10,72 @@ export default function AddExpense({
   existingPlaces = [],
   existingTags = [],
 }) {
-  const today = new Date().toISOString().split("T")[0]; // Gets today's date in YYYY-MM-DD format
-
-  const { data, setData, post, processing, errors } = useForm({
+  const [formData, setFormData] = useState({
     place: "",
-    date: today,
+    date: new Date().toISOString().split("T")[0],
     amount: "",
-    tags: "",
+    tags: [],
+    image: null,
   });
+  const [imagePreview, setImagePreview] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const tagArray = data.tags.split(",").map((t) => t.trim());
-    post("/expenses", {
-      place: data.place,
-      date: data.date,
-      amount: data.amount,
-      tags: tagArray,
+    setErrors({});
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("place", formData.place);
+    formDataToSend.append("date", formData.date);
+    formDataToSend.append("amount", formData.amount);
+    formDataToSend.append("tags", JSON.stringify(formData.tags));
+    if (formData.image) {
+      formDataToSend.append("image", formData.image);
+    }
+
+    router.post("/expenses", formDataToSend, {
+      onError: (errors) => setErrors(errors),
+      preserveScroll: true,
     });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, image: file });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCameraCapture = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const video = document.createElement("video");
+      video.srcObject = stream;
+      await video.play();
+
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext("2d").drawImage(video, 0, 0);
+
+      stream.getTracks().forEach((track) => track.stop());
+
+      canvas.toBlob((blob) => {
+        const file = new File([blob], "camera-capture.jpg", {
+          type: "image/jpeg",
+        });
+        setFormData({ ...formData, image: file });
+        setImagePreview(URL.createObjectURL(blob));
+      }, "image/jpeg");
+    } catch (error) {
+      console.error("Error accessing camera:", error);
+      setErrors({ ...errors, image: "Could not access camera" });
+    }
   };
 
   return (
@@ -44,9 +94,13 @@ export default function AddExpense({
                 id="amount"
                 type="number"
                 placeholder="10"
-                value={data.amount}
-                onChange={(e) => setData("amount", e.target.value)}
+                value={formData.amount}
+                onChange={(e) =>
+                  setFormData({ ...formData, amount: e.target.value })
+                }
                 className="form-input"
+                step="0.01"
+                min="0"
               />
               {errors.amount && (
                 <div className="text-error">{errors.amount}</div>
@@ -59,8 +113,10 @@ export default function AddExpense({
               <input
                 id="date"
                 type="date"
-                value={data.date}
-                onChange={(e) => setData("date", e.target.value)}
+                value={formData.date}
+                onChange={(e) =>
+                  setFormData({ ...formData, date: e.target.value })
+                }
                 className="form-input"
               />
               {errors.date && <div className="text-error">{errors.date}</div>}
@@ -75,8 +131,10 @@ export default function AddExpense({
                 type="text"
                 list="places"
                 placeholder="Market, Restaurant, etc."
-                value={data.place}
-                onChange={(e) => setData("place", e.target.value)}
+                value={formData.place}
+                onChange={(e) =>
+                  setFormData({ ...formData, place: e.target.value })
+                }
                 className="form-input"
               />
               <datalist id="places">
@@ -95,8 +153,13 @@ export default function AddExpense({
                 type="text"
                 list="categories"
                 placeholder="Food, Transport, etc."
-                value={data.tags}
-                onChange={(e) => setData("tags", e.target.value)}
+                value={formData.tags.join(", ")}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    tags: e.target.value.split(",").map((tag) => tag.trim()),
+                  })
+                }
                 className="form-input"
               />
               <datalist id="categories">
@@ -106,8 +169,39 @@ export default function AddExpense({
               </datalist>
               {errors.tags && <div className="text-error">{errors.tags}</div>}
             </div>
-            <button type="submit" disabled={processing} className="btn-primary">
-              {processing ? "Saving..." : "Save"}
+            <div className="form-field">
+              <label htmlFor="image" className="form-label">
+                Receipt Image
+              </label>
+              <div className="cluster">
+                <input
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="form-input"
+                />
+                <button
+                  type="button"
+                  onClick={handleCameraCapture}
+                  className="btn-secondary"
+                >
+                  Take Photo
+                </button>
+              </div>
+              {imagePreview && (
+                <div className="mt-xl">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    style={{ maxWidth: "200px", maxHeight: "200px" }}
+                  />
+                </div>
+              )}
+              {errors.image && <div className="text-error">{errors.image}</div>}
+            </div>
+            <button type="submit" className="btn-primary">
+              Add Expense
             </button>
           </form>
         </div>
