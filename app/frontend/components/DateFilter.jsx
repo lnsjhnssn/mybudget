@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { router } from "@inertiajs/react";
-import "../styles/theme.css";
+import "../styles/expenses.css";
 
 export default function DateFilter({ initialValue = "this_month" }) {
   const [dateFilter, setDateFilter] = useState(initialValue);

@@ -1,6 +1,6 @@
 import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
-import "../styles/theme.css";
+import "../styles/expenses.css";
 import logoSpark from "../assets/logo_spark.svg";
 
 export default function Navbar() {

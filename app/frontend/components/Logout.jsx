@@ -1,5 +1,5 @@
 import { router } from "@inertiajs/react";
-import "../styles/theme.css";
+import "../styles/expenses.css";
 
 export default function Logout() {
   const handleLogout = () => {

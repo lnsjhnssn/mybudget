@@ -23,8 +23,5 @@ module Mybudget
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
-    # Configure Active Storage to use Cloudinary
-    config.active_storage.service = :cloudinary
   end
 end
