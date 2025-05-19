@@ -274,7 +274,7 @@
   background-color: white;
 
   overflow: hidden;
-  border-radius: var(--radius-m);
+  /* border-radius: var(--radius-m); */
   border: 1px solid #e5e7eb;
 }
 
@@ -614,7 +614,9 @@
   gap: var(--space-s);
   padding: var(--space-xl);
   padding-top: var(--space-3xl);
-  background-color: var(--color-gray);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  /* background-color: var(--color-gray); */
   /* border-radius: var(--radius-m); */
 }
 
@@ -651,14 +653,16 @@ input::file-selector-button:hover {
 
 .btn-close-edit {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: var(--space-s);
+  right: var(--space-m);
   background: transparent;
   border: none;
   font-size: var(--step-2);
   cursor: pointer;
   padding: 5px;
   line-height: 1;
+  color: #555;
+  z-index: 10;
 }
 
 .expense-edit-actions {
