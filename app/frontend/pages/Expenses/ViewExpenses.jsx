@@ -15,7 +15,7 @@ export default function ViewExpenses({
   existingTags = [],
 }) {
   const [editingExpense, setEditingExpense] = useState(null);
-  const [viewMode, setViewMode] = useState("all");
+  const [viewMode, setViewMode] = useState("summary");
   const [expandedCategoryInSummary, setExpandedCategoryInSummary] =
     useState(null);
 
