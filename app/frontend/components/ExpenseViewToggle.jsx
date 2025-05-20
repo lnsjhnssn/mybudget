@@ -1,19 +1,8 @@
 import React from "react";
 
 export default function ExpenseViewToggle({ currentView, onViewChange }) {
-  const styles = {
-    container: {
-      marginBottom: "var(--space-l)",
-      display: "flex",
-      gap: "var(--space-s)",
-    },
-  };
-
   return (
-    <div
-      style={styles.container}
-      className="date-filter__buttons expense-view-toggle-controls pt-xl"
-    >
+    <div className="date-filter__buttons expense-view-toggle-controls pt-xl">
       <button
         type="button"
         className={`date-filter__button ${

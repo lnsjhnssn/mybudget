@@ -188,14 +188,14 @@ input::file-selector-button:hover {
 }
 
 .date-filter__button--active {
-  background-color: var(--color-blue);
-  border-color: var(--color-blue);
+  background-color: #333;
+  border-color: black;
   color: white;
 }
 
 .date-filter__button--active:hover {
-  background-color: var(--color-blue);
-  border-color: var(--color-blue);
+  background-color: #000;
+  border-color: black;
   color: white;
 }
 
