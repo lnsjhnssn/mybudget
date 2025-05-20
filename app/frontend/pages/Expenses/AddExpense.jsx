@@ -19,13 +19,39 @@ export default function AddExpense({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const tagArray = data.tags.split(",").map((t) => t.trim());
+
+    // Default for place
+    const finalPlace =
+      data.place.trim() === "" ? "Unknown Place" : data.place.trim();
+
+    // Default for amount
+    const rawAmount = data.amount.toString().trim(); // Ensure amount is treated as string for trimming
+    let parsedAmount = parseFloat(rawAmount);
+    const finalAmount =
+      rawAmount === "" || isNaN(parsedAmount) ? 0 : parsedAmount;
+
+    // Default for tags
+    let finalTags;
+    const trimmedTagsInput = data.tags.trim();
+    if (trimmedTagsInput === "") {
+      finalTags = ["Other"];
+    } else {
+      finalTags = trimmedTagsInput
+        .split(",")
+        .map((t) => t.trim())
+        .filter((t) => t !== ""); // Remove empty strings resulting from input like "tag1, , tag2"
+      if (finalTags.length === 0) {
+        // Handles cases like ", ," which result in an empty array after filtering
+        finalTags = ["Other"];
+      }
+    }
+
     post("/expenses", {
-      place: data.place,
-      date: data.date,
-      amount: data.amount,
-      tags: tagArray,
-      image: data.image,
+      place: finalPlace,
+      date: data.date, // Date already defaults to today in useForm
+      amount: finalAmount,
+      tags: finalTags,
+      image: data.image, // Image can be null, no default needed
     });
   };
 
