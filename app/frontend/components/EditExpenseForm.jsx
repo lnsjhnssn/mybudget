@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { router } from "@inertiajs/react";
 
 export default function EditExpenseForm({
@@ -7,12 +7,12 @@ export default function EditExpenseForm({
   existingPlaces = [],
   existingTags = [],
 }) {
-  const [editForm, setEditForm] = React.useState({
+  const [editForm, setEditForm] = useState({
     place: expense.place,
     date: expense.date,
     amount: parseFloat(expense.amount).toFixed(2),
     tags: expense.tags.map((tag) => tag.name).join(", "),
-    imageFile: null, // To store the new file object, if any
+    imageFile: null,
   });
 
   const handleUpdate = (e) => {
