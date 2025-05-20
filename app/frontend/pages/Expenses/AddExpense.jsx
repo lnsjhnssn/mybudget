@@ -1,6 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import "../../styles/theme.css";
 import Layout from "../../components/Layout";
+import { useEffect, useState } from "react";
 
 export default function AddExpense({
   user,
@@ -16,6 +17,16 @@ export default function AddExpense({
     tags: "",
     image: null,
   });
+
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      if (imagePreviewUrl) {
+        URL.revokeObjectURL(imagePreviewUrl);
+      }
+    };
+  }, [imagePreviewUrl]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,19 +50,18 @@ export default function AddExpense({
       finalTags = trimmedTagsInput
         .split(",")
         .map((t) => t.trim())
-        .filter((t) => t !== ""); // Remove empty strings resulting from input like "tag1, , tag2"
+        .filter((t) => t !== "");
       if (finalTags.length === 0) {
-        // Handles cases like ", ," which result in an empty array after filtering
         finalTags = ["Other"];
       }
     }
 
     post("/expenses", {
       place: finalPlace,
-      date: data.date, // Date already defaults to today in useForm
+      date: data.date,
       amount: finalAmount,
       tags: finalTags,
-      image: data.image, // Image can be null, no default needed
+      image: data.image,
     });
   };
 
@@ -135,13 +145,33 @@ export default function AddExpense({
             </div>
             <div className="form-field">
               <label htmlFor="image" className="form-label">
-                Add Receipt
+                Receipt
               </label>
+              {imagePreviewUrl && (
+                <div style={{ marginBottom: "10px" }}>
+                  <img
+                    src={imagePreviewUrl}
+                    alt="Receipt Preview"
+                    className="expense-edit-form__image"
+                  />
+                </div>
+              )}
               <input
                 type="file"
                 id="image"
                 name="image"
-                onChange={(e) => setData("image", e.target.files[0])}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setData("image", file);
+                  if (imagePreviewUrl) {
+                    URL.revokeObjectURL(imagePreviewUrl);
+                  }
+                  if (file) {
+                    setImagePreviewUrl(URL.createObjectURL(file));
+                  } else {
+                    setImagePreviewUrl(null);
+                  }
+                }}
                 className="form-input"
               />
               {errors.image && <div className="text-error">{errors.image}</div>}

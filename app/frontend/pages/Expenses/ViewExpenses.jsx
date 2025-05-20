@@ -5,6 +5,8 @@ import Layout from "../../components/Layout";
 import ExpenseViewToggle from "../../components/ExpenseViewToggle";
 import CategorySummaryView from "../../components/CategorySummaryView";
 import AllExpensesView from "../../components/AllExpensesView";
+import { useExpenseData } from "../../hooks/useExpenseData";
+import ExpensesOverview from "../../components/ExpensesOverview";
 
 export default function ViewExpenses({
   expenses,
@@ -19,38 +21,9 @@ export default function ViewExpenses({
   const [expandedCategoryInSummary, setExpandedCategoryInSummary] =
     useState(null);
 
-  // Calculate total of all expenses
-  const totalExpenses =
-    expenses?.reduce((sum, expense) => {
-      const amount = parseFloat(expense?.amount);
-      if (isNaN(amount)) {
-        console.warn("Invalid amount found:", expense);
-        return sum;
-      }
-      return sum + amount;
-    }, 0) || 0;
-
-  // Calculate remaining budget
-  const remainingBudget = budget ? budget.amount - totalExpenses : 0;
-
-  // Group expenses by tags
-  const expensesByTag = expenses.reduce((acc, expense) => {
-    expense.tags.forEach((tag) => {
-      if (!acc[tag.name]) {
-        acc[tag.name] = {
-          total: 0,
-          expenses: [],
-        };
-      }
-      acc[tag.name].total += parseFloat(expense.amount);
-      acc[tag.name].expenses.push(expense);
-    });
-    return acc;
-  }, {});
-
-  // Sort tags by total amount (descending)
-  const sortedTags = Object.entries(expensesByTag).sort(
-    ([, a], [, b]) => b.total - a.total
+  const { totalExpenses, remainingBudget, sortedTags } = useExpenseData(
+    expenses,
+    budget
   );
 
   const handleEdit = (expense) => {
@@ -115,35 +88,13 @@ export default function ViewExpenses({
         <div className="p-m">
           <DateFilter initialValue={dateFilter} />
 
-          <div className="expense-list-overview">
-            <div className="flex justify-between">
-              <p>Total Expenses</p>
-              <p className="expense-list__total">{totalExpenses.toFixed(2)}</p>
-            </div>
+          <ExpensesOverview
+            totalExpenses={totalExpenses}
+            budget={budget}
+            remainingBudget={remainingBudget}
+            dateFilter={dateFilter}
+          />
 
-            {budget && dateFilter === "this_month" && (
-              <>
-                <div className="flex justify-between">
-                  <p>Monthly Budget</p>
-                  <p className="expense-list__budget">
-                    {budget.amount.toFixed(2)}
-                  </p>
-                </div>
-                <div className="flex justify-between">
-                  <p>Remaining</p>
-                  <p
-                    className={`expense-list__remaining ${
-                      remainingBudget < 0
-                        ? "expense-list__remaining--negative"
-                        : ""
-                    }`}
-                  >
-                    {remainingBudget.toFixed(2)}
-                  </p>
-                </div>
-              </>
-            )}
-          </div>
           <ExpenseViewToggle
             currentView={viewMode}
             onViewChange={handleViewModeChange}
