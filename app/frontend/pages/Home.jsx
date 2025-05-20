@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { router } from "@inertiajs/react";
 import Login from "@/components/Login";
 import Signup from "@/components/Signup";
-import logoSpark from "../assets/logo_spark.svg";
 
 export default function Home({ authenticated }) {
   const [showLogin, setShowLogin] = useState(true);
@@ -33,7 +32,7 @@ export default function Home({ authenticated }) {
                 Don't have an account?{" "}
                 <button
                   onClick={() => setShowLogin(false)}
-                  className="btn-link btn-secondary"
+                  className="btn-small btn-grey"
                 >
                   Sign up
                 </button>
@@ -46,7 +45,7 @@ export default function Home({ authenticated }) {
                 Already have an account?{" "}
                 <button
                   onClick={() => setShowLogin(true)}
-                  className="btn-link btn-secondary"
+                  className="btn-small btn-grey"
                 >
                   Log in
                 </button>

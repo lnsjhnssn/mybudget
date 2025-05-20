@@ -68,7 +68,11 @@ export default function Signup() {
           className="form-input"
         />
 
-        <button type="submit" disabled={processing} className="btn-primary">
+        <button
+          type="submit"
+          disabled={processing}
+          className="btn-large btn-blue"
+        >
           {processing ? "Creating account..." : "Sign Up"}
         </button>
       </form>
