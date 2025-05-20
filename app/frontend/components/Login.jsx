@@ -52,7 +52,11 @@ export default function Login() {
           className="form-input"
         />
 
-        <button type="submit" disabled={processing} className="btn-primary">
+        <button
+          type="submit"
+          disabled={processing}
+          className="btn-large btn-blue"
+        >
           {processing ? "Logging in..." : "Log In"}
         </button>
       </form>
