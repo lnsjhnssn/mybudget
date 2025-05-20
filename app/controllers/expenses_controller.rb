@@ -51,14 +51,40 @@ class ExpensesController < ApplicationController
   end
 
   def create
+    # Set default values before normalization and creation
+    params[:place] = "Unknown Place" if params[:place].blank?
+    params[:amount] = 0 if params[:amount].blank? || !params[:amount].to_s.match?(/\A[+-]?\d*(\.\d+)?\z/)
+
+    # Handle tags default
+    # Tags might come as an array from the frontend default logic, or a string, or be absent
+    tags_param = params[:tags]
+    if tags_param.blank? || (tags_param.is_a?(Array) && tags_param.reject(&:blank?).empty?)
+      params[:tags] = ["Other"]
+    elsif tags_param.is_a?(Array)
+      # Ensure all elements are strings and filter out blanks again in case of ["", "Food"]
+      params[:tags] = tags_param.map(&:to_s).reject(&:blank?)
+      params[:tags] = ["Other"] if params[:tags].empty? # If filtering results in empty, default to Other
+    elsif tags_param.is_a?(String) && tags_param.strip.split(',').map(&:strip).reject(&:blank?).empty?
+      # Handles cases like ", , " or just "" for string input
+      params[:tags] = ["Other"]
+    end
+
     # Normalize place and tags before create
-    if params[:place].present?
-      params[:place] = normalize_text(params[:place])
-      # Handle tags whether they come as a string or array
-      if params[:tags].present?
-        tags = params[:tags].is_a?(Array) ? params[:tags] : [params[:tags]]
-        params[:tags] = tags.map { |tag| normalize_text(tag) }
-      end
+    # The existing normalization logic for place will apply to "Unknown Place" if it was set.
+    params[:place] = normalize_text(params[:place])
+
+    # Handle tags whether they come as a string or array, now ensuring params[:tags] is an array
+    current_tags = params[:tags] # Can be nil if not provided and not defaulted above
+    
+    if current_tags.present?
+      # Ensure current_tags is an array if it's a single string (e.g., from direct form submission not hitting frontend JS)
+      tags_to_normalize = current_tags.is_a?(Array) ? current_tags : current_tags.split(',').map(&:strip)
+      params[:tags] = tags_to_normalize.map { |tag| normalize_text(tag) }.reject(&:blank?)
+      # If after normalization, tags array is empty (e.g., was [" "]), default to Other
+      params[:tags] = ["Other"] if params[:tags].empty?
+    else
+      # If current_tags was nil or became empty and wasn't caught by initial defaulting
+      params[:tags] = ["Other"] 
     end
 
     expense = current_user.expenses.new(expense_params)
