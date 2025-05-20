@@ -179,26 +179,23 @@ export default function EditExpenseForm({
           }
           className="form-input"
         />
-      </div>
-
-      <div className="expense-edit-actions">
-        <button type="submit" className="btn-primary">
-          Save Changes
-        </button>
-      </div>
-      <div className="expense-edit-actions__buttons">
+        <label className="form-label">Delete this expense?</label>
         <button
           type="button"
           onClick={() => handleDelete(expense.id)}
-          className="btn-link btn-secondary"
+          className="btn-border btn-small btn-delete"
         >
-          Delete this item
+          Delete
         </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="btn-link btn-secondary"
-        >
+      </div>
+
+      <div className="expense-edit-actions">
+        <button type="submit" className="btn-large btn-green">
+          Save Changes
+        </button>
+      </div>
+      <div className="expense-edit-actions">
+        <button type="button" onClick={onCancel} className="btn-grey btn-large">
           Cancel
         </button>
       </div>

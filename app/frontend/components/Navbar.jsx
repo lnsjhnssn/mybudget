@@ -38,13 +38,13 @@ export default function Navbar() {
 
         {/* Desktop menu */}
         <div className="navbar__links">
-          <Link href="/expenses/add" className="btn-link">
+          <Link href="/expenses/add" className="navbar-link add-new">
             + Add New
           </Link>
-          <Link href="/expenses" className="btn-link">
+          <Link href="/expenses" className="navbar-link">
             View All
           </Link>
-          <Link href="/budget" className="btn-link">
+          <Link href="/budget" className="navbar-link">
             Set budget
           </Link>
         </div>

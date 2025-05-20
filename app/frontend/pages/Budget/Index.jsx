@@ -76,7 +76,7 @@ export default function BudgetIndex({ budget, user }) {
                 <div className="text-error">{errors.amount}</div>
               )}
             </div>
-            <button type="submit" className="btn-primary">
+            <button type="submit" className="btn-large btn-green">
               {budget ? "Save changes" : "Save Budget"}
             </button>
           </form>

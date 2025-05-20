@@ -1,6 +1,6 @@
 @import "./reset.css";
 @import "./base.css";
-
+@import "./buttons.css";
 /* Composition */
 
 .flex {
@@ -106,102 +106,6 @@
   padding: var(--space-s);
   border: 1px solid #e5e7eb;
   border-radius: 0.25rem;
-}
-
-.btn-primary {
-  width: 100%;
-  margin-top: var(--space-xs);
-  padding: var(--space-m);
-  background-color: var(--color-blue);
-  color: white;
-  border: none;
-
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-@media (hover: hover) {
-  .btn-primary:hover {
-    background-color: var(--color-blue-hover);
-  }
-}
-
-@media (hover: none) {
-  .btn-primary:active {
-    background-color: var(--color-blue-hover);
-  }
-}
-
-.btn-primary:disabled {
-  cursor: not-allowed;
-}
-
-.btn-logout {
-  padding: var(--space-xs) var(--space-s);
-
-  color: black;
-  border: none;
-  border-radius: var(--radius-xl);
-  font-size: var(--step--1);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-@media (max-width: 450px) {
-  .btn-logout {
-    display: none;
-  }
-}
-
-@media (hover: hover) {
-  .btn-logout:hover {
-    background-color: black;
-    color: white;
-  }
-}
-
-@media (hover: none) {
-  .btn-logout:active {
-    background-color: var(--color-blue-hover);
-  }
-}
-
-.btn-link {
-  text-decoration: none;
-  padding: var(--space-xs) var(--space-s);
-  color: black;
-  border: none;
-  border-radius: var(--radius-xl);
-  font-size: var(--step--1);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-@media (hover: hover) {
-  .btn-link:hover {
-    text-decoration: none;
-    background-color: var(--color-blue-hover);
-    color: white;
-  }
-}
-
-@media (hover: none) {
-  .btn-link:active {
-    text-decoration: none;
-    background-color: var(--color-blue-hover);
-  }
-}
-
-.btn-secondary:hover {
-  background-color: black;
-  color: white;
-}
-
-.btn-secondary:active {
-  background-color: black;
-  color: white;
 }
 
 /* Page : All expenses  */
@@ -316,50 +220,6 @@
   font-weight: var(--font-weight-bold);
   color: #6b7280;
   margin-bottom: var(--space-xs);
-}
-
-.date-filter__buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.date-filter__button {
-  padding: var(--space-xs) var(--space-s);
-  border: 1px solid #e5e7eb;
-  border-radius: var(--radius-xl);
-  background-color: white;
-  color: #4b5563;
-  font-size: var(--step--1);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-@media (hover: hover) {
-  .date-filter__button:hover {
-    /* background-color: var(--color-blue-light); */
-    border-color: black;
-    scale: 1.02;
-  }
-}
-
-@media (hover: none) {
-  .date-filter__button:active {
-    border-color: black;
-  }
-}
-
-.date-filter__button--active {
-  background-color: var(--color-blue);
-  border-color: var(--color-blue);
-  color: white;
-}
-
-.date-filter__button--active:hover {
-  background-color: var(--color-blue);
-  border-color: var(--color-blue);
-  color: white;
 }
 
 /*navbar*/
@@ -512,37 +372,6 @@
 }
 
 /* Mobile Menu */
-.mobile-menu-button {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 100;
-}
-
-.mobile-menu-button span {
-  width: 100%;
-  height: 2px;
-  background-color: black;
-  transition: all 0.3s ease;
-}
-
-.mobile-menu-button.is-active span:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
-}
-
-.mobile-menu-button.is-active span:nth-child(2) {
-  opacity: 0;
-}
-
-.mobile-menu-button.is-active span:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
-}
 
 .mobile-menu {
   display: none;
@@ -634,35 +463,6 @@
 
 #imageFile {
   padding: var(--space-m);
-}
-
-input::file-selector-button {
-  padding: var(--space-s) var(--space-m);
-  color: black;
-  border: 1px solid #e5e7eb;
-  border-radius: var(--radius-xl);
-  font-size: var(--step--1);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-input::file-selector-button:hover {
-  background-color: rgb(229, 231, 235);
-}
-
-.btn-close-edit {
-  position: absolute;
-  top: var(--space-s);
-  right: var(--space-m);
-  background: transparent;
-  border: none;
-  font-size: var(--step-2);
-  cursor: pointer;
-  padding: 5px;
-  line-height: 1;
-  color: #555;
-  z-index: 10;
 }
 
 .expense-edit-actions {
