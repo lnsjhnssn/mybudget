@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import "../../styles/theme.css";
 import DateFilter from "../../components/DateFilter";
 import Layout from "../../components/Layout";
-import EditExpenseForm from "../../components/EditExpenseForm";
+import ExpenseViewToggle from "../../components/ExpenseViewToggle";
+import CategorySummaryView from "../../components/CategorySummaryView";
+import AllExpensesView from "../../components/AllExpensesView";
 
 export default function ViewExpenses({
   expenses,
@@ -12,11 +14,10 @@ export default function ViewExpenses({
   existingPlaces = [],
   existingTags = [],
 }) {
-  console.log(
-    "Expenses data received by ViewExpenses:",
-    JSON.stringify(expenses, null, 2)
-  );
   const [editingExpense, setEditingExpense] = useState(null);
+  const [viewMode, setViewMode] = useState("all");
+  const [expandedCategoryInSummary, setExpandedCategoryInSummary] =
+    useState(null);
 
   // Calculate total of all expenses
   const totalExpenses =
@@ -31,7 +32,6 @@ export default function ViewExpenses({
 
   // Calculate remaining budget
   const remainingBudget = budget ? budget.amount - totalExpenses : 0;
-  const budgetPercentage = budget ? (totalExpenses / budget.amount) * 100 : 0;
 
   // Group expenses by tags
   const expensesByTag = expenses.reduce((acc, expense) => {
@@ -55,6 +55,54 @@ export default function ViewExpenses({
 
   const handleEdit = (expense) => {
     setEditingExpense(expense.id);
+  };
+
+  const handleViewModeChange = (newMode) => {
+    setViewMode(newMode);
+    setExpandedCategoryInSummary(null);
+    setEditingExpense(null);
+  };
+
+  const handleCategoryClickInSummary = (categoryName) => {
+    if (expandedCategoryInSummary === categoryName) {
+      setExpandedCategoryInSummary(null);
+    } else {
+      setExpandedCategoryInSummary(categoryName);
+    }
+    setEditingExpense(null);
+  };
+
+  const renderExpenseContent = () => {
+    if (!expenses || expenses.length === 0) {
+      return <p className="expense-list__empty"></p>;
+    }
+
+    if (viewMode === "summary") {
+      return (
+        <CategorySummaryView
+          sortedTags={sortedTags}
+          expandedCategoryInSummary={expandedCategoryInSummary}
+          onCategoryToggle={handleCategoryClickInSummary}
+          editingExpense={editingExpense}
+          onEditExpense={handleEdit}
+          onCancelEdit={() => setEditingExpense(null)}
+          existingPlaces={existingPlaces}
+          existingTags={existingTags}
+        />
+      );
+    }
+
+    return (
+      <AllExpensesView
+        sortedTags={sortedTags}
+        expenses={expenses}
+        editingExpense={editingExpense}
+        onEditExpense={handleEdit}
+        onCancelEdit={() => setEditingExpense(null)}
+        existingPlaces={existingPlaces}
+        existingTags={existingTags}
+      />
+    );
   };
 
   return (
@@ -96,53 +144,11 @@ export default function ViewExpenses({
               </>
             )}
           </div>
-
-          <div className="list-expenses">
-            {sortedTags.map(([tagName, { total, expenses }]) => (
-              <div key={tagName} className="expense-tag-group">
-                <div className="expense-tag-group__header">
-                  <p className="expense-tag-group__title">{tagName}</p>
-                  <span className="expense-tag-group__total">
-                    {total.toFixed(2)}
-                  </span>
-                </div>
-                <ul className="expense-tag-group__list">
-                  {expenses.map((expense) => (
-                    <li key={expense.id} className="expense-item">
-                      {editingExpense === expense.id ? (
-                        <EditExpenseForm
-                          expense={expense}
-                          onCancel={() => setEditingExpense(null)}
-                          existingPlaces={existingPlaces}
-                          existingTags={existingTags}
-                        />
-                      ) : (
-                        <div
-                          className="expense-item__header"
-                          onClick={() => handleEdit(expense)}
-                          style={{ cursor: "pointer" }}
-                        >
-                          <div>
-                            <span className="expense-item__place">
-                              {expense.place}
-                            </span>
-                            <span className="expense-item__date">
-                              {new Date(expense.date).toLocaleDateString()}
-                            </span>
-                          </div>
-                          <div className="expense-item__actions">
-                            <span className="expense-item__amount">
-                              {parseFloat(expense.amount).toFixed(2)}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <ExpenseViewToggle
+            currentView={viewMode}
+            onViewChange={handleViewModeChange}
+          />
+          {renderExpenseContent()}
         </div>
       </main>
     </Layout>
