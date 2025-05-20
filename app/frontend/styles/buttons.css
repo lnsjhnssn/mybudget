@@ -1,0 +1,248 @@
+@import "./base.css";
+
+button,
+.btn {
+  border: none;
+  cursor: pointer;
+}
+
+/* Size */
+.btn-large {
+  width: 100%;
+  /* margin-top: var(--space-); */
+  padding: var(--space-m);
+}
+
+.btn-small {
+  padding: var(--space-xs) var(--space-s);
+  border-radius: var(--radius-xl);
+  font-size: var(--step--1);
+  font-weight: var(--font-weight-bold);
+  transition: all 0.2s ease;
+}
+
+/* Colors */
+.btn-blue {
+  background-color: var(--color-blue);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .btn-blue:hover {
+    background-color: var(--color-blue-hover);
+  }
+}
+
+@media (hover: none) {
+  .btn-blue:active {
+    background-color: var(--color-blue-hover);
+  }
+}
+
+.btn-green {
+  background-color: var(--color-green);
+  color: white;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .btn-green:hover {
+    background-color: var(--color-green-hover);
+  }
+}
+
+@media (hover: none) {
+  .btn-green:active {
+    background-color: var(--color-green-hover);
+  }
+}
+
+.btn-border {
+  border: 1px solid #0e0e0e;
+  background-color: transparent;
+  color: black;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .btn-border:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+.btn-border:active {
+  background-color: black;
+  color: white;
+}
+
+.btn-grey {
+  background-color: var(--color-grey);
+  color: black;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .btn-grey:hover {
+    background-color: var(--color-grey-hover);
+  }
+}
+
+@media (hover: none) {
+  .btn-grey:active {
+    background-color: var(--color-grey-hover);
+  }
+}
+
+/* Individual styles for buttons */
+
+/* Navbar links */
+.navbar-link {
+  text-decoration: none;
+  padding: var(--space-xs) var(--space-s);
+  color: black;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--step--1);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .navbar-link:hover {
+    text-decoration: none;
+    background-color: var(--color-blue-hover);
+    color: white;
+  }
+}
+
+@media (hover: none) {
+  .navbar-link:active {
+    text-decoration: none;
+    background-color: var(--color-blue-hover);
+  }
+}
+
+input::file-selector-button {
+  padding: var(--space-s) var(--space-m);
+  background-color: var(--color-grey);
+  color: black;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-xl);
+  font-size: var(--step--1);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input::file-selector-button:hover {
+  background-color: var(--color-grey-hover);
+}
+
+/* delete-button */
+.btn-delete {
+  margin-top: var(--space-l);
+  margin-left: var(--space-m);
+}
+
+/* logout-button */
+@media (max-width: 450px) {
+  .btn-logout {
+    display: none;
+  }
+}
+
+/* date-filter-buttons */
+.date-filter__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.date-filter__button {
+  padding: var(--space-xs) var(--space-s);
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-xl);
+  background-color: white;
+  color: #4b5563;
+  font-size: var(--step--1);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .date-filter__button:hover {
+    border-color: black;
+    scale: 1.02;
+  }
+}
+
+@media (hover: none) {
+  .date-filter__button:active {
+    border-color: black;
+  }
+}
+
+.date-filter__button--active {
+  background-color: var(--color-blue);
+  border-color: var(--color-blue);
+  color: white;
+}
+
+.date-filter__button--active:hover {
+  background-color: var(--color-blue);
+  border-color: var(--color-blue);
+  color: white;
+}
+
+.mobile-menu-button {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 100;
+}
+
+/* mobile-menu-hamburger-button */
+.mobile-menu-button span {
+  width: 100%;
+  height: 2px;
+  background-color: black;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-button.is-active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.mobile-menu-button.is-active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-button.is-active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* close-edit-expense-form-button */
+.btn-close-edit {
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-m);
+  background: transparent;
+  border: none;
+  font-size: var(--step-2);
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+  color: #555;
+  z-index: 10;
+}

@@ -10,11 +10,16 @@
 
 :root {
   --color-red: #dc2626;
-  --color-green: #058333;
+  --color-red-hover: #c02121;
+  --color-green: hsl(142, 93%, 27%);
+  --color-green-hover: hsl(142, 93%, 30%);
   --color-blue: hsl(203, 100%, 47%);
   --color-blue-light: hsl(203, 100%, 96%);
   --color-blue-hover: hsl(203, 100%, 50%);
   --color-gray: #f5f7fa;
+  --color-grey: #e5e7eb;
+  --color-grey-hover: #d1d5db;
+
   /* @link https://utopia.fyi/type/calculator?c=320,16,1.125,720,21,1.25,6,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
   --step--1: clamp(0.8889rem, 0.88rem + 0.0444vi, 0.9rem);
   --step-0: clamp(1rem, 0.9rem + 0.5vi, 1.125rem);

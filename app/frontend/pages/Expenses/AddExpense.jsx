@@ -120,7 +120,11 @@ export default function AddExpense({
               />
               {errors.image && <div className="text-error">{errors.image}</div>}
             </div>
-            <button type="submit" disabled={processing} className="btn-primary">
+            <button
+              type="submit"
+              disabled={processing}
+              className="btn-large btn-blue"
+            >
               {processing ? "Saving..." : "Save"}
             </button>
           </form>

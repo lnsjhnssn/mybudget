@@ -12,7 +12,7 @@ export default function Logout() {
   };
 
   return (
-    <button onClick={handleLogout} className="btn-logout">
+    <button onClick={handleLogout} className="btn-small btn-border btn-logout">
       Logout
     </button>
   );
