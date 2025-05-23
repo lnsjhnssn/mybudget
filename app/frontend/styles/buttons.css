@@ -62,7 +62,7 @@ button,
 .btn-border {
   border: 1px solid #0e0e0e;
   background-color: transparent;
-  color: black;
+  color: inherit;
   transition: all 0.2s ease;
 }
 
@@ -80,7 +80,7 @@ button,
 
 .btn-grey {
   background-color: var(--color-grey);
-  color: black;
+  color: inherit;
   transition: all 0.2s ease;
 }
 
@@ -102,7 +102,7 @@ button,
 .navbar-link {
   text-decoration: none;
   padding: var(--space-xs) var(--space-s);
-  color: black;
+  color: inherit;
   border: none;
   border-radius: var(--radius-xl);
   font-size: var(--step--1);
@@ -129,7 +129,7 @@ button,
 input::file-selector-button {
   padding: var(--space-s) var(--space-m);
   background-color: var(--color-grey);
-  color: black;
+  color: inherit;
   border: 1px solid #e5e7eb;
   border-radius: var(--radius-xl);
   font-size: var(--step--1);
