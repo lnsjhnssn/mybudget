@@ -1,24 +1,36 @@
 import { useForm } from "@inertiajs/react";
 import "../../styles/theme.css";
+import "../../styles/datepicker.css";
+import "react-datepicker/dist/react-datepicker.css";
 import Layout from "../../components/Layout";
 import { useEffect, useState } from "react";
+import CreatableSelect from "react-select/creatable";
+import DatePicker from "react-datepicker";
+import { customSelectStyles } from "../../styles/selectStyles";
 
 export default function AddExpense({
   user,
   existingPlaces = [],
   existingTags = [],
 }) {
-  const today = new Date().toISOString().split("T")[0]; // Gets today's date in YYYY-MM-DD format
+  const today = new Date(); // Use Date object instead of string
 
   const { data, setData, post, processing, errors } = useForm({
     place: "",
-    date: today,
+    date: today, // Store as Date object
     amount: "",
     tags: "",
     image: null,
   });
 
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+
+  // Transform existing data into react-select format
+  const placeOptions = existingPlaces.map((place) => ({
+    value: place,
+    label: place,
+  }));
+  const tagOptions = existingTags.map((tag) => ({ value: tag, label: tag }));
 
   useEffect(() => {
     return () => {
@@ -56,9 +68,15 @@ export default function AddExpense({
       }
     }
 
+    // Convert date to YYYY-MM-DD format for backend
+    const finalDate =
+      data.date instanceof Date
+        ? data.date.toISOString().split("T")[0]
+        : data.date;
+
     post("/expenses", {
       place: finalPlace,
-      date: data.date,
+      date: finalDate,
       amount: finalAmount,
       tags: finalTags,
       image: data.image,
@@ -93,12 +111,15 @@ export default function AddExpense({
               <label htmlFor="date" className="form-label">
                 Date
               </label>
-              <input
-                id="date"
-                type="date"
-                value={data.date}
-                onChange={(e) => setData("date", e.target.value)}
-                className="form-input"
+              <DatePicker
+                selected={data.date}
+                onChange={(date) => setData("date", date)}
+                className="custom-datepicker"
+                dateFormat="MMMM d, yyyy"
+                placeholderText="Select a date"
+                maxDate={new Date()}
+                showPopperArrow={false}
+                todayButton="Today"
               />
               {errors.date && <div className="text-error">{errors.date}</div>}
             </div>
@@ -107,40 +128,36 @@ export default function AddExpense({
               <label htmlFor="place" className="form-label">
                 Place
               </label>
-              <input
-                id="place"
-                type="text"
-                list="places"
-                placeholder="Market, Restaurant, etc."
-                value={data.place}
-                onChange={(e) => setData("place", e.target.value)}
-                className="form-input"
+              <CreatableSelect
+                options={placeOptions}
+                value={
+                  data.place ? { value: data.place, label: data.place } : null
+                }
+                onChange={(selectedOption) =>
+                  setData("place", selectedOption?.value || "")
+                }
+                placeholder="Select or enter a place"
+                styles={customSelectStyles}
+                isClearable
               />
-              <datalist id="places">
-                {existingPlaces.map((place) => (
-                  <option key={place} value={place} />
-                ))}
-              </datalist>
               {errors.place && <div className="text-error">{errors.place}</div>}
             </div>
             <div className="form-field">
               <label htmlFor="tags" className="form-label">
                 Category
               </label>
-              <input
-                id="tags"
-                type="text"
-                list="categories"
-                placeholder="Food, Transport, etc."
-                value={data.tags}
-                onChange={(e) => setData("tags", e.target.value)}
-                className="form-input"
+              <CreatableSelect
+                options={tagOptions}
+                value={
+                  data.tags ? { value: data.tags, label: data.tags } : null
+                }
+                onChange={(selectedOption) =>
+                  setData("tags", selectedOption?.value || "")
+                }
+                placeholder="Select or enter a category"
+                styles={customSelectStyles}
+                isClearable
               />
-              <datalist id="categories">
-                {existingTags.map((tag) => (
-                  <option key={tag} value={tag} />
-                ))}
-              </datalist>
               {errors.tags && <div className="text-error">{errors.tags}</div>}
             </div>
             <div className="form-field">

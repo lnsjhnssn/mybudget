@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { router } from "@inertiajs/react";
+import CreatableSelect from "react-select/creatable";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../styles/datepicker.css";
+import { customSelectStyles } from "../styles/selectStyles";
 
 export default function EditExpenseForm({
   expense,
@@ -9,11 +14,18 @@ export default function EditExpenseForm({
 }) {
   const [editForm, setEditForm] = useState({
     place: expense.place,
-    date: expense.date,
+    date: new Date(expense.date), // Convert to Date object
     amount: parseFloat(expense.amount).toFixed(2),
     tags: expense.tags.map((tag) => tag.name).join(", "),
     imageFile: null,
   });
+
+  // Transform existing data into react-select format
+  const placeOptions = existingPlaces.map((place) => ({
+    value: place,
+    label: place,
+  }));
+  const tagOptions = existingTags.map((tag) => ({ value: tag, label: tag }));
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -26,7 +38,7 @@ export default function EditExpenseForm({
     const dataToSend = {
       _method: "PUT", // Spoof PUT method for robust file uploads with Inertia
       place: editForm.place,
-      date: editForm.date,
+      date: editForm.date.toISOString().split("T")[0],
       amount: editForm.amount,
       tags: formattedTags,
     };
@@ -90,59 +102,61 @@ export default function EditExpenseForm({
         <label htmlFor="date" className="form-label">
           Date
         </label>
-        <input
-          id="date"
-          type="date"
-          value={editForm.date}
-          onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
-          className="form-input"
-          required
+        <DatePicker
+          selected={editForm.date}
+          onChange={(date) => setEditForm({ ...editForm, date: date })}
+          className="custom-datepicker"
+          dateFormat="MMMM d, yyyy"
+          placeholderText="Select a date"
+          maxDate={new Date()}
+          showPopperArrow={false}
+          todayButton="Today"
         />
       </div>
       <div className="form-field">
         <label htmlFor="place" className="form-label">
           Place
         </label>
-        <input
-          id="place"
-          type="text"
-          list="places"
-          placeholder="Market, Restaurant, etc."
-          value={editForm.place}
-          onChange={(e) =>
+        <CreatableSelect
+          options={placeOptions}
+          value={
+            editForm.place
+              ? { value: editForm.place, label: editForm.place }
+              : null
+          }
+          onChange={(selectedOption) =>
             setEditForm({
               ...editForm,
-              place: e.target.value,
+              place: selectedOption?.value || "",
             })
           }
-          className="form-input"
-          required
+          placeholder="Market, Restaurant, etc."
+          styles={customSelectStyles}
+          isClearable
         />
-        <datalist id="places">
-          {existingPlaces.map((place) => (
-            <option key={place} value={place} />
-          ))}
-        </datalist>
       </div>
 
       <div className="form-field">
         <label htmlFor="tags" className="form-label">
           Category
         </label>
-        <input
-          id="tags"
-          type="text"
-          list="categories"
+        <CreatableSelect
+          options={tagOptions}
+          value={
+            editForm.tags
+              ? { value: editForm.tags, label: editForm.tags }
+              : null
+          }
+          onChange={(selectedOption) =>
+            setEditForm({
+              ...editForm,
+              tags: selectedOption?.value || "",
+            })
+          }
           placeholder="Food, Transport, etc."
-          value={editForm.tags}
-          onChange={(e) => setEditForm({ ...editForm, tags: e.target.value })}
-          className="form-input"
+          styles={customSelectStyles}
+          isClearable
         />
-        <datalist id="categories">
-          {existingTags.map((tag) => (
-            <option key={tag} value={tag} />
-          ))}
-        </datalist>
       </div>
       {/* Display current image if no new image is selected yet */}
       {expense.image_url && !editForm.imageFile && (
