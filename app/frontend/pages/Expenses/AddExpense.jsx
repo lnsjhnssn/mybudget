@@ -1,7 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import "../../styles/theme.css";
-import "../../styles/datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
+import "../../styles/datepicker.css";
 import Layout from "../../components/Layout";
 import { useEffect, useState } from "react";
 import CreatableSelect from "react-select/creatable";
@@ -17,7 +17,7 @@ export default function AddExpense({
 
   const { data, setData, post, processing, errors } = useForm({
     place: "",
-    date: today, // Store as Date object
+    date: today,
     amount: "",
     tags: "",
     image: null,
