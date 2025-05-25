@@ -13,60 +13,69 @@ export default function Signup() {
     e.preventDefault();
     post("/users", {
       preserveScroll: true,
-      preserveState: false,
+      preserveState: true,
     });
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="stack login-form">
+      <form onSubmit={handleSubmit} className="signup-form">
         <h2>Sign Up</h2>
 
-        {errors.user?.email && (
-          <div className="text-error">{errors.user.email}</div>
-        )}
-        {errors.user?.password && (
-          <div className="text-error">{errors.user.password}</div>
-        )}
-        {errors.message && <div className="text-error">{errors.message}</div>}
+        <div className="form-field">
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
+          <input
+            type="email"
+            value={data.user.email}
+            onChange={(e) => setData("user.email", e.target.value)}
+            placeholder="Email"
+            required
+            className="form-input"
+          />
+        </div>
 
-        <label htmlFor="email" className="form-label">
-          Email
-        </label>
-        <input
-          type="email"
-          value={data.user.email}
-          onChange={(e) => setData("user.email", e.target.value)}
-          placeholder="Email"
-          required
-          className="form-input"
-        />
+        <div className="form-field">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            value={data.user.password}
+            onChange={(e) => setData("user.password", e.target.value)}
+            placeholder="Password"
+            required
+            className="form-input"
+          />
+        </div>
 
-        <label htmlFor="password" className="form-label">
-          Password
-        </label>
-        <input
-          type="password"
-          value={data.user.password}
-          onChange={(e) => setData("user.password", e.target.value)}
-          placeholder="Password"
-          required
-          className="form-input"
-        />
-
-        <label htmlFor="password_confirmation" className="form-label">
-          Confirm Password
-        </label>
-        <input
-          type="password"
-          value={data.user.password_confirmation}
-          onChange={(e) =>
-            setData("user.password_confirmation", e.target.value)
-          }
-          placeholder="Confirm Password"
-          required
-          className="form-input"
-        />
+        <div className="form-field">
+          <label htmlFor="password_confirmation" className="form-label">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            value={data.user.password_confirmation}
+            onChange={(e) =>
+              setData("user.password_confirmation", e.target.value)
+            }
+            placeholder="Confirm Password"
+            required
+            className="form-input"
+          />
+          {errors.user?.password && (
+            <div className="text-error">{errors.user.password}</div>
+          )}
+          {errors.user?.password_confirmation && (
+            <div className="text-error">
+              {errors.user.password_confirmation}
+            </div>
+          )}
+          {errors.user?.email && (
+            <div className="text-error">{errors.user.email}</div>
+          )}
+        </div>
 
         <button
           type="submit"

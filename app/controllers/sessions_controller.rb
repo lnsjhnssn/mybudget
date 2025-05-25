@@ -10,10 +10,12 @@ class SessionsController < ApplicationController
         secure: Rails.env.production?
       }
 
-      redirect_to '/dashboard'
+      redirect_to '/expenses/add'
     else
       render inertia: 'Home', props: {
-        errors: ['Invalid email or password']
+        errors: {
+          message: 'Invalid email or password'
+        }
       }, status: :unprocessable_entity
     end
   end

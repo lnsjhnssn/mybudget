@@ -79,7 +79,7 @@ button,
 }
 
 .btn-grey {
-  background-color: var(--color-grey);
+  background-color: var(--color-grey-button);
   color: inherit;
   transition: all 0.2s ease;
 }
@@ -98,39 +98,11 @@ button,
 
 /* Individual styles for buttons */
 
-/* Navbar links */
-.navbar-link {
-  text-decoration: none;
-  padding: var(--space-xs) var(--space-s);
-  color: inherit;
-  border: none;
-  border-radius: var(--radius-xl);
-  font-size: var(--step--1);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-@media (hover: hover) {
-  .navbar-link:hover {
-    text-decoration: none;
-    background-color: var(--color-blue-hover);
-    color: white;
-  }
-}
-
-@media (hover: none) {
-  .navbar-link:active {
-    text-decoration: none;
-    background-color: var(--color-blue-hover);
-  }
-}
-
 input::file-selector-button {
   padding: var(--space-s) var(--space-m);
-  background-color: var(--color-grey);
+  background-color: var(--color-grey-button);
   color: inherit;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-grey-border);
   border-radius: var(--radius-xl);
   font-size: var(--step--1);
   font-weight: var(--font-weight-bold);
@@ -164,7 +136,7 @@ input::file-selector-button:hover {
 
 .date-filter__button {
   padding: var(--space-xs) var(--space-s);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-grey-border);
   border-radius: var(--radius-xl);
   background-color: white;
   color: #4b5563;
@@ -197,39 +169,6 @@ input::file-selector-button:hover {
   background-color: #000;
   border-color: black;
   color: white;
-}
-
-.mobile-menu-button {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 100;
-}
-
-/* mobile-menu-hamburger-button */
-.mobile-menu-button span {
-  width: 100%;
-  height: 2px;
-  background-color: black;
-  transition: all 0.3s ease;
-}
-
-.mobile-menu-button.is-active span:nth-child(1) {
-  transform: translateY(9px) rotate(45deg);
-}
-
-.mobile-menu-button.is-active span:nth-child(2) {
-  opacity: 0;
-}
-
-.mobile-menu-button.is-active span:nth-child(3) {
-  transform: translateY(-9px) rotate(-45deg);
 }
 
 /* close-edit-expense-form-button */

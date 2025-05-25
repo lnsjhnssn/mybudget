@@ -1,19 +1,23 @@
 import { useForm } from "@inertiajs/react";
+import DatePicker from "react-datepicker";
+import CreatableSelect from "react-select/creatable";
 import "../../styles/theme.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/datepicker.css";
 import Layout from "../../components/Layout";
 import { useEffect, useState } from "react";
-import CreatableSelect from "react-select/creatable";
-import DatePicker from "react-datepicker";
 import { customSelectStyles } from "../../styles/selectStyles";
+import useDisableNumberInputScroll from "../../helpers/useDisableNumberInputScroll";
 
 export default function AddExpense({
   user,
   existingPlaces = [],
   existingTags = [],
 }) {
-  const today = new Date(); // Use Date object instead of string
+  // Disable scroll on number input
+  useDisableNumberInputScroll();
+
+  const today = new Date();
 
   const { data, setData, post, processing, errors } = useForm({
     place: "",
@@ -43,44 +47,24 @@ export default function AddExpense({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Default for place
-    const finalPlace =
-      data.place.trim() === "" ? "Unknown Place" : data.place.trim();
-
-    // Default for amount
-    const rawAmount = data.amount.toString().trim(); // Ensure amount is treated as string for trimming
-    let parsedAmount = parseFloat(rawAmount);
-    const finalAmount =
-      rawAmount === "" || isNaN(parsedAmount) ? 0 : parsedAmount;
-
-    // Default for tags
-    let finalTags;
-    const trimmedTagsInput = data.tags.trim();
-    if (trimmedTagsInput === "") {
-      finalTags = ["Other"];
-    } else {
-      finalTags = trimmedTagsInput
-        .split(",")
-        .map((t) => t.trim())
-        .filter((t) => t !== "");
-      if (finalTags.length === 0) {
-        finalTags = ["Other"];
-      }
-    }
-
-    // Convert date to YYYY-MM-DD format for backend
-    const finalDate =
-      data.date instanceof Date
-        ? data.date.toISOString().split("T")[0]
-        : data.date;
-
-    post("/expenses", {
-      place: finalPlace,
-      date: finalDate,
-      amount: finalAmount,
-      tags: finalTags,
+    // Prepare data with defaults
+    const formData = {
+      place: data.place.trim() || "Unknown Place",
+      date:
+        data.date instanceof Date
+          ? data.date.toISOString().split("T")[0]
+          : data.date,
+      amount: data.amount ? parseFloat(data.amount) : 0,
+      tags: data.tags
+        ? data.tags
+            .split(",")
+            .map((t) => t.trim())
+            .filter((t) => t)
+        : ["Other"],
       image: data.image,
-    });
+    };
+
+    post("/expenses", formData);
   };
 
   return (
@@ -116,8 +100,6 @@ export default function AddExpense({
                 onChange={(date) => setData("date", date)}
                 className="custom-datepicker"
                 dateFormat="MMMM d, yyyy"
-                placeholderText="Select a date"
-                maxDate={new Date()}
                 showPopperArrow={false}
                 todayButton="Today"
               />
@@ -196,7 +178,7 @@ export default function AddExpense({
             <button
               type="submit"
               disabled={processing}
-              className="btn-large btn-blue"
+              className="btn-large btn-green"
             >
               {processing ? "Saving..." : "Save"}
             </button>

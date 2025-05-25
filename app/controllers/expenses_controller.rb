@@ -1,4 +1,6 @@
 class ExpensesController < ApplicationController
+  before_action :require_login
+
   def index
     expenses = current_user.expenses.includes(:tags)
     
@@ -148,16 +150,12 @@ class ExpensesController < ApplicationController
       expenses.where(date: Date.today)
     when 'this_month'
       expenses.where(date: Date.today.beginning_of_month..Date.today.end_of_month)
-    when 'last_30_days'
-      expenses.where(date: 30.days.ago..Date.today)
     when 'last_month'
       expenses.where(date: 1.month.ago.beginning_of_month..1.month.ago.end_of_month)
     when 'last_3_months'
       expenses.where(date: 3.months.ago..Date.today)
     when 'last_6_months'
       expenses.where(date: 6.months.ago..Date.today)
-    when 'this_year'
-      expenses.where(date: Date.today.beginning_of_year..Date.today)
     else
       expenses
     end

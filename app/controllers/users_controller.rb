@@ -11,11 +11,17 @@ class UsersController < ApplicationController
         secure: Rails.env.production?
       }
 
-      redirect_to '/dashboard'
+      redirect_to '/expenses/add'
     else
       Rails.logger.error "User creation failed: #{@user.errors.full_messages.join(', ')}"
       render inertia: 'Home', props: {
-        errors: @user.errors.full_messages
+        errors: {
+          user: {
+            email: @user.errors[:email].first,
+            password: @user.errors[:password].first,
+            password_confirmation: @user.errors[:password_confirmation].first
+          }
+        }
       }, status: :unprocessable_entity
     end
   end

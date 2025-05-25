@@ -1,8 +1,10 @@
+@import "./base.css";
+
 /* React-DatePicker custom styling */
-.custom-datepicker {
+/* .custom-datepicker {
   width: 100% !important;
   padding: var(--space-s) !important;
-  border: 1px solid #e5e7eb !important;
+  border: 1px solid var(--color-grey-border) !important;
   border-radius: 0.25rem !important;
   font-size: 16px !important;
   font-family: inherit !important;
@@ -22,7 +24,7 @@
 
 .react-datepicker {
   font-family: inherit !important;
-  border: 1px solid #e5e7eb !important;
+  border: 1px solid var(--color-grey-border) !important;
   border-radius: 0.25rem !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
   background-color: white !important;
@@ -30,7 +32,7 @@
 
 .react-datepicker__header {
   background-color: #f8f9fa !important;
-  border-bottom: 1px solid #e5e7eb !important;
+  border-bottom: 1px solid var(--color-grey-border) !important;
   border-radius: 0.25rem 0.25rem 0 0 !important;
   padding: var(--space-s) !important;
 }
@@ -58,7 +60,7 @@
 }
 
 .react-datepicker__day:hover {
-  background-color: var(--color-gray) !important;
+  background-color: var(--color-background) !important;
   border-radius: 0.25rem !important;
 }
 
@@ -84,7 +86,7 @@
 }
 
 .react-datepicker__navigation:hover {
-  background-color: var(--color-gray) !important;
+  background-color: var(--color-background) !important;
   border-radius: 0.25rem !important;
 }
 
@@ -114,4 +116,125 @@
 
 .react-datepicker-popper {
   z-index: 1000 !important;
+} */
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  padding: var(--space-xs);
+  width: 100%;
+  padding: var(--space-s);
+  border: 1px solid var(--color-grey-border);
+  border-radius: 0.25rem;
+}
+
+.react-datepicker {
+  background-color: white;
+}
+
+.custom-datepicker:hover {
+  border-color: var(--color-grey-dark);
+}
+
+.custom-datepicker:focus {
+  outline: none;
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.react-datepicker {
+  font-family: inherit;
+  border: 1px solid var(--color-grey-border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.react-datepicker__header {
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-grey-border);
+  border-radius: 0.25rem 0.25rem 0 0;
+  padding: var(--space-s);
+}
+
+.react-datepicker__current-month {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--step-0);
+  color: var(--color-text);
+}
+
+.react-datepicker__day-name {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--step--1);
+}
+
+.react-datepicker__day {
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+  color: var(--color-text);
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  margin: 0.1rem;
+}
+
+.react-datepicker__day:hover {
+  background-color: var(--color-background);
+  border-radius: 0.25rem;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--selected:hover {
+  background-color: var(--color-blue);
+  color: white;
+  border-radius: 0.25rem;
+}
+
+.react-datepicker__day--today {
+  background-color: #e5f3ff;
+  color: var(--color-blue);
+  font-weight: var(--font-weight-bold);
+  border-radius: 0.25rem;
+}
+
+.react-datepicker__navigation {
+  border: none;
+  background: none;
+  font-size: 18px;
+  top: 0.75rem;
+}
+
+.react-datepicker__navigation:hover {
+  background-color: var(--color-background);
+  border-radius: 0.25rem;
+}
+
+.react-datepicker__navigation--previous {
+  left: 0.75rem;
+}
+
+.react-datepicker__navigation--next {
+  right: 0.75rem;
+}
+
+.react-datepicker__today-button {
+  background-color: var(--color-blue);
+  color: white;
+  border: none;
+  padding: var(--space-xs) var(--space-s);
+  border-radius: 0.25rem;
+  font-size: var(--step--1);
+  font-weight: var(--font-weight-bold);
+  margin: var(--space-s);
+  cursor: pointer;
+}
+
+.react-datepicker__today-button:hover {
+  background-color: var(--color-blue-hover);
+}
+
+.react-datepicker-popper {
+  z-index: 1000;
 }

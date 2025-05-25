@@ -11,10 +11,6 @@ export default function CategorySummaryView({
   existingPlaces,
   existingTags,
 }) {
-  if (sortedTags.length === 0) {
-    return <p className="expense-list__empty"></p>;
-  }
-
   return (
     <div className="list-expenses">
       {sortedTags.map(([tagName, { total, expenses: categoryExpenses }]) => (
@@ -33,13 +29,10 @@ export default function CategorySummaryView({
             <p className="expense-tag-group__title">{tagName}</p>
             <span className="expense-tag-group__total">{total.toFixed(2)}</span>
           </div>
-          {expandedCategoryInSummary === tagName && (
-            <ul
-              className="expense-tag-group__list"
-              style={{ marginTop: "var(--space-xs)" }}
-            >
-              {categoryExpenses.length > 0 ? (
-                categoryExpenses.map((expense) => (
+          {expandedCategoryInSummary === tagName &&
+            categoryExpenses.length > 0 && (
+              <ul className="expense-tag-group__list">
+                {categoryExpenses.map((expense) => (
                   <ExpenseListItem
                     key={expense.id}
                     expense={expense}
@@ -49,12 +42,9 @@ export default function CategorySummaryView({
                     existingPlaces={existingPlaces}
                     existingTags={existingTags}
                   />
-                ))
-              ) : (
-                <li className="expense-item"></li>
-              )}
-            </ul>
-          )}
+                ))}
+              </ul>
+            )}
         </div>
       ))}
     </div>

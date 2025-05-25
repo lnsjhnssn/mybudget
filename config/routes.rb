@@ -9,17 +9,13 @@ Rails.application.routes.draw do
   end
   resources :budgets, only: [:show, :create, :update]
 
-  get '/dashboard', to: 'expenses#new'
   get '/budget', to: 'budgets#show'
-  
   
   get '/expenses', to: 'expenses#index'
   get 'expenses/add', to: 'expenses#new'
   
   get '/authenticated', to: 'sessions#authenticated'
   delete '/logout', to: 'sessions#destroy'
-
- 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -33,4 +29,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # Catch all undefined routes and redirect to root
+  match '*path', to: 'home#index', via: :all
 end

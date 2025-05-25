@@ -27,6 +27,7 @@ export default function DateFilter({ initialValue = "this_month" }) {
     { value: "last_month", label: "Last Month" },
     { value: "last_3_months", label: "Last 3 Months" },
     { value: "last_6_months", label: "Last 6 Months" },
+    { value: "all_time", label: "All Time" },
   ];
 
   return (

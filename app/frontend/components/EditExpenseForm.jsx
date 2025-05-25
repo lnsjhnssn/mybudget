@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/datepicker.css";
 import { customSelectStyles } from "../styles/selectStyles";
+import useDisableNumberInputScroll from "../helpers/useDisableNumberInputScroll";
 
 export default function EditExpenseForm({
   expense,
@@ -12,6 +13,9 @@ export default function EditExpenseForm({
   existingPlaces = [],
   existingTags = [],
 }) {
+  // Disable scroll on number input
+  useDisableNumberInputScroll();
+
   const [editForm, setEditForm] = useState({
     place: expense.place,
     date: new Date(expense.date), // Convert to Date object
@@ -36,7 +40,7 @@ export default function EditExpenseForm({
       .filter((tag) => tag.length > 0);
 
     const dataToSend = {
-      _method: "PUT", // Spoof PUT method for robust file uploads with Inertia
+      _method: "PUT",
       place: editForm.place,
       date: editForm.date.toISOString().split("T")[0],
       amount: editForm.amount,
@@ -107,8 +111,6 @@ export default function EditExpenseForm({
           onChange={(date) => setEditForm({ ...editForm, date: date })}
           className="custom-datepicker"
           dateFormat="MMMM d, yyyy"
-          placeholderText="Select a date"
-          maxDate={new Date()}
           showPopperArrow={false}
           todayButton="Today"
         />
