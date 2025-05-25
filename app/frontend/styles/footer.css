@@ -1,0 +1,18 @@
+@import "./base.css";
+
+/* Footer Styles */
+.footer {
+  padding: var(--space-xl) 0;
+  margin-top: var(--space-xl);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.footer-copyright {
+  color: #6b7280;
+  font-size: var(--step--1);
+}

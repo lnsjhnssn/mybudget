@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "../../styles/theme.css";
-import DateFilter from "../../components/DateFilter";
 import Layout from "../../components/Layout";
+import DateFilter from "../../components/DateFilter";
 import ExpenseViewToggle from "../../components/ExpenseViewToggle";
 import CategorySummaryView from "../../components/CategorySummaryView";
 import AllExpensesView from "../../components/AllExpensesView";
 import { useExpenseData } from "../../hooks/useExpenseData";
 import ExpensesOverview from "../../components/ExpensesOverview";
+import "../../styles/theme.css";
 
 export default function ViewExpenses({
   expenses,
@@ -47,7 +47,12 @@ export default function ViewExpenses({
 
   const renderExpenseContent = () => {
     if (!expenses || expenses.length === 0) {
-      return <p className="expense-list__empty"></p>;
+      return (
+        <p className="expense-list__empty">
+          Add your first expense by clicking on "+ Add new" at the top of the
+          page.
+        </p>
+      );
     }
 
     if (viewMode === "summary") {
@@ -82,7 +87,7 @@ export default function ViewExpenses({
     <Layout>
       <main className="container-md bg-secondary">
         <div className="page-header">
-          <h2 className="page-title">All Expenses</h2>
+          <h2 className="page-title">Expenses</h2>
         </div>
 
         <div className="p-m">

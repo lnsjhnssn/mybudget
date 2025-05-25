@@ -24,17 +24,24 @@ export default function Navbar() {
         <Link href="/expenses/add" className="navbar__brand">
           <h1 className="navbar__logo">Spark.</h1>
         </Link>
-
-        {/* Mobile menu button */}
-        <button
-          className={`mobile-menu-button ${isMenuOpen ? "is-active" : ""}`}
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        {/* Mobile menu button and Add Expense link */}
+        <div className="mobile-nav">
+          <Link
+            href="/expenses/add"
+            className="navbar-link add-new mobile-add-new"
+          >
+            + Add New
+          </Link>
+          <button
+            className={`mobile-menu-button ${isMenuOpen ? "is-active" : ""}`}
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
 
         {/* Desktop menu */}
         <div className="navbar__links">
@@ -42,7 +49,7 @@ export default function Navbar() {
             + Add New
           </Link>
           <Link href="/expenses" className="navbar-link">
-            View All
+            Expenses
           </Link>
           <Link href="/budget" className="navbar-link">
             Set budget
@@ -64,7 +71,7 @@ export default function Navbar() {
               className="mobile-menu__link"
               onClick={() => setIsMenuOpen(false)}
             >
-              View All
+              Expenses
             </Link>
             <Link
               href="/budget"

@@ -2,9 +2,9 @@ export const customSelectStyles = {
   control: (provided, state) => ({
     ...provided,
     minHeight: "44px",
-    border: "1px solid #ccc",
+    border: `1px solid #e5e7eb`,
     borderRadius: "4px",
-    fontSize: "16px",
+    fontSize: "inherit",
     fontFamily: "inherit",
     backgroundColor: "white",
     "&:hover": {

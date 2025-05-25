@@ -10,14 +10,6 @@ export default function AllExpensesView({
   existingPlaces,
   existingTags,
 }) {
-  if (sortedTags.length === 0 && expenses && expenses.length > 0) {
-    return <p className="expense-list__empty"></p>;
-  }
-
-  if (sortedTags.length === 0 && (!expenses || expenses.length === 0)) {
-    return <p className="expense-list__empty"></p>;
-  }
-
   return (
     <div className="list-expenses">
       {sortedTags.map(([tagName, { total, expenses: groupExpenses }]) => (
