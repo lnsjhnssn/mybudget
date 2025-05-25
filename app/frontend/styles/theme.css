@@ -76,6 +76,8 @@
 .text-error {
   color: var(--color-red);
   font-size: var(--step--1);
+  margin-bottom: var(--space-xl);
+  margin-top: var(--space-l);
 }
 
 /* Containers */

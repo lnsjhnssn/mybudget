@@ -9,7 +9,6 @@ class User < ApplicationRecord
   validates :email, 
     presence: true, 
     uniqueness: { message: "This email has already been taken" },
-    length: { minimum: 6, message: "Email must be at least 6 characters long" },
     format: { 
       with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/,
       message: "Please enter a valid email address"
@@ -19,8 +18,8 @@ class User < ApplicationRecord
   validates :password, 
     length: { minimum: 6, message: "Password must be at least 6 characters long" },
     format: { 
-      with: /\A(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]+\z/,
-      message: "Password must contain at least one number, one special character (!@#$%^&*), one lowercase letter, and one uppercase letter"
+      with: /\A(?=.*[0-9])(?=.*[!@#$%^&*+_])[a-zA-Z0-9!@#$%^&*+_]+\z/,
+      message: "Password must contain at least one number, one special character (!@#$%^&*+_), one lowercase letter and one uppercase letter"
     }
   validates :password_confirmation, presence: true
   
