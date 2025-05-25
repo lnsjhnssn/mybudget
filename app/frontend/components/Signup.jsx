@@ -35,6 +35,9 @@ export default function Signup() {
             className="form-input"
           />
         </div>
+        {errors.user?.email && (
+          <div className="text-error">{errors.user.email}</div>
+        )}
 
         <div className="form-field">
           <label htmlFor="password" className="form-label">
@@ -71,9 +74,6 @@ export default function Signup() {
             <div className="text-error">
               {errors.user.password_confirmation}
             </div>
-          )}
-          {errors.user?.email && (
-            <div className="text-error">{errors.user.email}</div>
           )}
         </div>
 
