@@ -7,9 +7,13 @@ class ApplicationController < ActionController::Base
   def current_user
     @current_user ||= begin
       token = cookies.signed[:expense_tracker_session_token]
+      Rails.logger.info "Cookie token: #{token}"
+      
       return nil if token.blank?
 
       session = Session.find_by(token: token)
+      Rails.logger.info "Found session: #{session.inspect}"
+      
       return nil if session.nil?
 
       session.user

@@ -1,17 +1,10 @@
-import { useEffect, useState } from "react";
-import { router } from "@inertiajs/react";
+import { useState } from "react";
 import Login from "@/components/Login";
 import Signup from "@/components/Signup";
 import Logo from "@/assets/v.png";
 
-export default function Home({ authenticated }) {
-  const [showLogin, setShowLogin] = useState(true);
-
-  useEffect(() => {
-    if (authenticated) {
-      router.visit("/dashboard");
-    }
-  }, [authenticated]);
+export default function Home({ minPasswordLength }) {
+  const [showLogin, setShowLogin] = useState(false);
 
   return (
     <div className="home-container container-md">
@@ -44,7 +37,7 @@ export default function Home({ authenticated }) {
             </>
           ) : (
             <>
-              <Signup />
+              <Signup minPasswordLength={minPasswordLength} />
               <p className="auth-switch">
                 Already have an account?{" "}
                 <button

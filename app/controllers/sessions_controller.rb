@@ -30,6 +30,10 @@ class SessionsController < ApplicationController
   end
 
   def authenticated
+    Rails.logger.info "Checking authentication status"
+    Rails.logger.info "Current user: #{current_user.inspect}"
+    Rails.logger.info "Session token: #{cookies.signed[:expense_tracker_session_token]}"
+    
     render json: { authenticated: current_user.present? }
   end
 end
