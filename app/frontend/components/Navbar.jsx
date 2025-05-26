@@ -1,6 +1,7 @@
 import { Link, router } from "@inertiajs/react";
 import { useState } from "react";
 import "../styles/theme.css";
+import Logo from "@/assets/v.png";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,7 +23,10 @@ export default function Navbar() {
     <nav>
       <div className="navbar-container container-md">
         <Link href="/expenses/add" className="navbar__brand">
-          <h1 className="navbar__logo">Spark.</h1>
+          <div className="navbar-logo-container">
+            <h1>Spark</h1>
+            <img src={Logo} alt="Spark" className="logo" />
+          </div>
         </Link>
         {/* Mobile menu button and Add Expense link */}
         <div className="mobile-nav">

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { router } from "@inertiajs/react";
 import Login from "@/components/Login";
 import Signup from "@/components/Signup";
+import Logo from "@/assets/v.png";
 
 export default function Home({ authenticated }) {
   const [showLogin, setShowLogin] = useState(true);
@@ -15,7 +16,10 @@ export default function Home({ authenticated }) {
   return (
     <div className="home-container container-md">
       <div className="home-header stack">
-        <h1>Spark.</h1>
+        <div className="logo-container">
+          <h1>Spark</h1>
+          <img src={Logo} alt="Spark" className="logo" />
+        </div>
 
         <p className="home-header__description">
           Set a monthly spending goal. <br />

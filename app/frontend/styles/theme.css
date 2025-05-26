@@ -60,6 +60,30 @@
   gap: var(--space, 1rem);
 }
 
+.logo-container {
+  display: flex;
+  gap: var(--space-s);
+  align-items: end;
+}
+
+.logo {
+  width: var(--step-5);
+}
+
+.navbar-logo-container {
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: end;
+
+  .logo {
+    width: var(--step-1);
+  }
+
+  h1 {
+    font-size: var(--step-1);
+  }
+}
+
 /* Utility */
 .visually-hidden {
   border: 0;
