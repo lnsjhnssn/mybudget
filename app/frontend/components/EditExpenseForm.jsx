@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { router } from "@inertiajs/react";
 import CreatableSelect from "react-select/creatable";
 import DatePicker from "react-datepicker";
@@ -195,6 +195,8 @@ export default function EditExpenseForm({
           }
           className="form-input"
         />
+      </div>
+      <div className="form-field delete-expense-field">
         <label className="form-label">Delete this expense?</label>
         <button
           type="button"
