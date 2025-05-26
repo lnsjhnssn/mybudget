@@ -114,12 +114,6 @@ input::file-selector-button:hover {
   background-color: var(--color-grey-hover);
 }
 
-/* delete-button */
-.btn-delete {
-  margin-top: var(--space-l);
-  margin-left: var(--space-m);
-}
-
 /* logout-button */
 @media (max-width: 450px) {
   .btn-logout {
@@ -184,4 +178,11 @@ input::file-selector-button:hover {
   line-height: 1;
   color: #555;
   z-index: 10;
+}
+
+.btn-delete {
+  /* background-color: red;
+  color: white; */
+  /* border: none; */
+  max-width: 100px;
 }

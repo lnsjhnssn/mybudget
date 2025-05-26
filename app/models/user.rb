@@ -16,22 +16,10 @@ class User < ApplicationRecord
 
   # Password validation
   validates :password, 
-    length: { minimum: 6, message: "Password must be at least 6 characters long" },
-    format: { 
-      with: /\A(?=.*[0-9])(?=.*[!@#$%^&*+_])[a-zA-Z0-9!@#$%^&*+_]+\z/,
-      message: "Password must contain at least one number, one special character (!@#$%^&*+_), one lowercase letter and one uppercase letter"
-    }
-  validates :password_confirmation, presence: true
-  
-  validate :password_confirmation_matches
+    length: { minimum: 9, message: "Password must be at least 9 characters long" }
 
-  private
-
-  def password_confirmation_matches
-    if password_confirmation.present? && password != password_confirmation
-      errors.delete(:password_confirmation) # Remove the default message
-      errors.add(:password_confirmation, "Password doesn't match")
-    end
+  def self.min_password_length
+    validators_on(:password).find { |v| v.is_a?(ActiveModel::Validations::LengthValidator) }&.options[:minimum] || 9
   end
 end
 

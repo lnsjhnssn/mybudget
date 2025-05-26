@@ -1,4 +1,5 @@
 import { useForm } from "@inertiajs/react";
+import PasswordInput from "./PasswordInput";
 
 export default function Login() {
   const { data, setData, post, processing, errors } = useForm({
@@ -36,27 +37,21 @@ export default function Login() {
           />
         </div>
 
-        <div className="form-field">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={data.user.password}
-            onChange={(e) => setData("user.password", e.target.value)}
-            placeholder="Password"
-            required
-            className="form-input"
-          />
-          {errors.message && <div className="text-error">{errors.message}</div>}
-          {errors.user?.email && (
-            <div className="text-error">{errors.user.email}</div>
-          )}
-          {errors.user?.password && (
-            <div className="text-error">{errors.user.password}</div>
-          )}
-        </div>
+        <PasswordInput
+          id="password"
+          label="Password"
+          value={data.user.password}
+          onChange={(e) => setData("user.password", e.target.value)}
+          placeholder="Password"
+          required
+        />
+        {errors.message && <div className="text-error">{errors.message}</div>}
+        {errors.user?.email && (
+          <div className="text-error">{errors.user.email}</div>
+        )}
+        {errors.user?.password && (
+          <div className="text-error">{errors.user.password}</div>
+        )}
 
         <button
           type="submit"

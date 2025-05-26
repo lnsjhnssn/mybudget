@@ -77,7 +77,6 @@
   color: var(--color-red);
   font-size: var(--step--1);
   margin-bottom: var(--space-xl);
-  margin-top: var(--space-l);
 }
 
 /* Containers */
@@ -136,6 +135,12 @@
 
 #imageFile {
   padding: var(--space-m);
+}
+
+.delete-expense-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 }
 
 /* Page : All expenses  */
@@ -364,4 +369,51 @@
     font-weight: var(--font-weight-bold);
     margin-bottom: var(--space-l);
   }
+}
+
+.password-toggle-btn {
+  cursor: pointer;
+  padding: 0;
+  font-size: var(--step--1);
+  color: var(--color-text);
+  background-color: transparent;
+  text-decoration: underline;
+  justify-self: end;
+  margin-bottom: var(--space-xs);
+}
+
+.password-input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+
+  .form-input {
+    width: 100%;
+    margin-bottom: var(--space-xs);
+  }
+}
+
+.password-requirements {
+  font-size: var(--step--1);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.password-requirements-wrapper {
+  margin-top: var(--space-xs);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.password-requirements--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.password-length-counter {
+  font-size: var(--step--1);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-xs);
+  text-align: right;
 }

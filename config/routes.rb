@@ -30,6 +30,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  # Catch all undefined routes and redirect to root
-  match '*path', to: 'home#index', via: :all
+  # Catch all undefined routes and redirect to root, but exclude Active Storage paths
+  match '*path', to: 'home#index', via: :all, constraints: ->(req) { !req.path.start_with?('/rails/active_storage') }
 end

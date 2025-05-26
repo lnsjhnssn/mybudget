@@ -1,11 +1,11 @@
 import { useForm } from "@inertiajs/react";
+import PasswordInput from "./PasswordInput";
 
 export default function Signup() {
   const { data, setData, post, processing, errors } = useForm({
     user: {
       email: "",
       password: "",
-      password_confirmation: "",
     },
   });
 
@@ -39,43 +39,18 @@ export default function Signup() {
           <div className="text-error">{errors.user.email}</div>
         )}
 
-        <div className="form-field">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            value={data.user.password}
-            onChange={(e) => setData("user.password", e.target.value)}
-            placeholder="Password"
-            required
-            className="form-input"
-          />
-        </div>
-
-        <div className="form-field">
-          <label htmlFor="password_confirmation" className="form-label">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            value={data.user.password_confirmation}
-            onChange={(e) =>
-              setData("user.password_confirmation", e.target.value)
-            }
-            placeholder="Confirm Password"
-            required
-            className="form-input"
-          />
-          {errors.user?.password && (
-            <div className="text-error">{errors.user.password}</div>
-          )}
-          {errors.user?.password_confirmation && (
-            <div className="text-error">
-              {errors.user.password_confirmation}
-            </div>
-          )}
-        </div>
+        <PasswordInput
+          id="password"
+          label="Password"
+          value={data.user.password}
+          onChange={(e) => setData("user.password", e.target.value)}
+          placeholder="Password"
+          required
+          showRequirements={true}
+        />
+        {errors.user?.password && (
+          <div className="text-error">{errors.user.password}</div>
+        )}
 
         <button
           type="submit"
