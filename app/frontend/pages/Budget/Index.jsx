@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { router } from "@inertiajs/react";
 import "../../styles/theme.css";
 import Layout from "../../components/Layout";
+import useDisableNumberInputScroll from "../../helpers/useDisableNumberInputScroll";
 
 export default function BudgetIndex({ budget, user }) {
   const [amount, setAmount] = useState(budget?.amount || "");
   const [errors, setErrors] = useState({});
+
+  // Disable scroll on number input
+  useDisableNumberInputScroll();
 
   const handleSubmit = (e) => {
     e.preventDefault();
