@@ -49,8 +49,7 @@ export default function ViewExpenses({
     if (!expenses || expenses.length === 0) {
       return (
         <p className="expense-list__empty">
-          Add your first expense by clicking on "+ Add new" at the top of the
-          page.
+          No expenses found for the selected period.
         </p>
       );
     }
