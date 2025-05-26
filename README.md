@@ -94,10 +94,11 @@ The application will be available at `http://localhost:3000`
 
 Project Link: https://budgetapp-zn76.onrender.com/
 
-![firstpage](https://github.com/user-attachments/assets/6df51573-64bf-4a6a-8c07-98791d4f2d8b)
-![addnew_mobile](https://github.com/user-attachments/assets/8a4d99b0-caf6-46ad-a306-d630c5b69b8a)
+![firstpage](https://github.com/user-attachments/assets/4c545fc4-d218-4164-a413-7937f85c36a0)
+<br/>
+![addnew_mobile](https://github.com/user-attachments/assets/ab5d0972-5a15-4109-8f5c-d404b2c72137)
+<br/>
 ![allexpenses_mobile](https://github.com/user-attachments/assets/01a5c6a4-43a8-40ca-bb25-2c4210c214ce)
-![editexpense_mobile](https://github.com/user-attachments/assets/b21f7978-69bb-4336-bc18-2eb3449affc6)
 
 
 
