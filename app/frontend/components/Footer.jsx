@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="footer-content">
           <div>
             <p className="footer-copyright">
-              © {new Date().getFullYear()} Spark. All rights reserved.
+              © {new Date().getFullYear()} Spara. All rights reserved.
             </p>
           </div>
           <Logout />

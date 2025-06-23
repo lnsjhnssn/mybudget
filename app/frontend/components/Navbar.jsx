@@ -24,7 +24,7 @@ export default function Navbar() {
       <div className="navbar-container container-md">
         <Link href="/expenses/add" className="navbar__brand">
           <div className="navbar-logo-container">
-            <h1>Spark</h1>
+            <h1>Spara</h1>
             <img src={Logo} alt="Spark" className="logo" />
           </div>
         </Link>

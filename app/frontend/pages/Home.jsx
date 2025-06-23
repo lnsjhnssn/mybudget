@@ -10,7 +10,7 @@ export default function Home({ minPasswordLength }) {
     <div className="home-container container-md">
       <div className="home-header stack">
         <div className="logo-container">
-          <h1>Spark</h1>
+          <h1>Spara</h1>
           <img src={Logo} alt="Spark" className="logo" />
         </div>
 
