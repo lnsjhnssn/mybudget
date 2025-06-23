@@ -1,4 +1,4 @@
-# Expense Tracker App made in Rails + Inertia JS + React
+# Spara - Expense Tracker App made in Rails + Inertia JS + React
 
 ## About
 
